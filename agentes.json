@@ -5,10 +5,10 @@
     "playerName": "",
     "ageProf": "Xeltronius Zorgonix",
     "summary": "",
-    "attrCombat": "10",
-    "attrIntelligence": "1",
-    "attrCharisma": "5",
-    "attrMobility": "10",
+    "attrCombate": "10",
+    "attrInteligencia": "1",
+    "attrCarisma": "5",
+    "attrMobilidade": "10",
     "attrVigor": "10",
     "powers": "Rank S: Super força, Super Velocidade, Voo, Resistência Absurda, Imune a Doenças Terráqueas e Qualquer Tipo De Substancia.",
     "weaknesses": "Constantemente com sono, viciado em café por algum motivo, leva o dever muito a serio, carente.",
@@ -19,11 +19,7 @@
     "repSdn": "88",
     "repMedia": "70",
     "repCivis": "80",
-    "portraitFilename": "SuperEstrelado.jpg",
-    "attrInteligencia": "2",
-    "attrCombate": "10",
-    "attrCarisma": "6",
-    "attrMobilidade": "10"
+    "portraitFilename": "SuperEstrelado.jpg"
   },
   {
     "id": 1768491663123,
