@@ -46,5 +46,27 @@
     "repMedia": "51",
     "repCivis": "67",
     "portraitFilename": "imagemtemporariacons.png"
+  },
+  {
+    "id": 1768510191893,
+    "heroName": "Severin",
+    "playerName": "",
+    "ageProf": "Desconhecido",
+    "summary": "",
+    "attrCombate": "2",
+    "attrInteligencia": "4",
+    "attrCarisma": "2",
+    "attrMobilidade": "3",
+    "attrVigor": "4",
+    "powers": "Corta qualquer coisa que consiga imaginar sendo cortada.",
+    "weaknesses": " Se deixa levar pelas obsessões dele as vezes.",
+    "conditions": "",
+    "goal": "",
+    "gear": "",
+    "activeOps": "Em reabilitação por assassinato, não acho uma boa ideia esse cara nesse projeto, mas o Super Estrelado está aqui, então acho que vai ficar tudo bem, e de qualquer forma deram uma chance dele usar o poder dele pro bem, então espero que ele consiga, afinal ele é um daqueles que não tem mais porra nenhuma, talvez consiga reconstruir uma vida nova, mas o time de Devs prefere manter distancia desse cara... (o mano que ele matou ficou tão desfigurado que o pessoal da autópsia confundiu o pé dele com o rosto.)",
+    "repSdn": "45",
+    "repMedia": "41",
+    "repCivis": "41",
+    "portraitFilename": "Severin.jpg"
   }
 ]
