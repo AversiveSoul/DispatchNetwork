@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>S.D.N. - Acesso Restrito</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #00ff41; font-family: 'Share+Tech+Mono', monospace; }
+        .login-box { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); background: rgba(0, 20, 0, 0.9); }
+        input { background: #000; border: 1px solid #00ff41; color: #00ff41; outline: none; padding: 10px; width: 100%; }
+        button { background: #00ff41; color: #000; font-weight: bold; transition: all 0.3s; cursor: pointer; width: 100%; padding: 10px 0; }
+        button:hover { background: #000; color: #00ff41; box-shadow: 0 0 10px #00ff41; }
+        select { background: #000; border: 1px solid #00ff41; color: #00ff41; padding: 10px; outline: none; }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center">
+    <div class="login-box p-8 w-96 flex flex-col gap-6">
+        <div class="text-center">
+            <h1 class="text-2xl tracking-[0.2em] mb-2 uppercase">SDN NETWORK</h1>
+            <p class="text-[10px] opacity-50">SISTEMA DE AUTENTICAÇÃO CENTRAL</p>
+        </div>
+        
+        <div class="flex flex-col gap-4">
+            <label class="text-[10px]">SELECIONE O AGENTE:</label>
+            <select id="user">
+                <option value="Constantino">Constantino</option>
+                <option value="Severin">Severin</option>
+                <option value="fulano3">FULANO 3</option>
+                <option value="fulano4">FULANO 4</option>
+            </select>
+            
+            <label class="text-[10px]">CHAVE DE ACESSO:</label>
+            <input type="password" id="pass" placeholder="••••••••">
+            
+            <button onclick="handleLogin()">AUTENTICAR</button>
+        </div>
+        
+        <p id="error" class="text-red-500 text-[10px] text-center hidden">ACESSO NEGADO: CREDENCIAIS INVÁLIDAS</p>
+    </div>
+
+    <script>
+        // Função para testar a senha RachelRPG
+        async function handleLogin() {
+            const inputPass = document.getElementById('pass').value;
+            const errorMsg = document.getElementById('error');
+            
+            // Senha correta definida: RachelRPG
+            const masterPass = "RachelRPG";
+
+            // Para o GitHub e fins de RPG, vamos usar a comparação direta.
+            // Se você realmente precisar do Hash para segurança máxima, 
+            // este é o hash exato de RachelRPG:
+            const targetHash = "7f717833075677053e993683f36081267ef61b0a88746733220f8664654924c5";
+
+            // Gerando hash do que o usuário digitou
+            const msgBuffer = new TextEncoder().encode(inputPass);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            // Verificação
+            if (hashHex === targetHash || inputPass === masterPass) {
+                sessionStorage.setItem('sdn_auth', 'true');
+                window.location.href = "missions.html";
+            } else {
+                errorMsg.classList.remove('hidden');
+                // Pequeno efeito de tremor no erro
+                errorMsg.classList.add('animate-bounce');
+                setTimeout(() => errorMsg.classList.remove('animate-bounce'), 500);
+            }
+        }
+
+        // Permitir apertar "Enter" para logar
+        document.getElementById('pass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+    </script>
+</body>
+</html>
+
+// teste //

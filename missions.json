@@ -1,0 +1,62 @@
+[
+  {
+    "operationId": "OP-76-Gatinho",
+    "threatLevel": "🟢 Baixo",
+    "objective": "Salvar um gatinho de uma arvore. Habilidades recomendadas, Carisma e Agilidade.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407375544,
+    "x": 10.604453870625663,
+    "y": 18.55072463768116
+  },
+  {
+    "operationId": "OP-431-Picle",
+    "threatLevel": "🟢 Baixo",
+    "objective": "Uma senhora quer ajuda para abrir um pote de Picles, Habilidades recomendadas, força física e velocidade",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407428918,
+    "x": 14.899257688229056,
+    "y": 46.3768115942029
+  },
+  {
+    "operationId": "OP-incendio-na-vila norte",
+    "threatLevel": "🟢 Baixo",
+    "objective": "a vila norte está pegando fogo, civis em perigo, velocidade e inteligência recomendados. ",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407515072,
+    "x": 32.66171792152704,
+    "y": 15.65217391304348
+  },
+  {
+    "operationId": "OP-130-Hamburguer-Fatale",
+    "threatLevel": "🔴 Alto",
+    "objective": "Um cyber terrorista está atacando uma loja de hamburguer popular porque tiraram o lanche favorito dele do cardápio, ele possui armamento pesado e próteses militares, status recomendado força.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407612076,
+    "x": 32.7677624602333,
+    "y": 38.98550724637681
+  },
+  {
+    "operationId": "OP-848-Crise-Italiana",
+    "threatLevel": "🔴 Alto",
+    "objective": "aparentemente um supervilão com criação italiana está bravo porque partiram um espaguete no meio, relatos indicam morte do cozinheiro e 5 reféns, objetivo da missão prioridade resgatar os reféns depois lidar com o vilão, Velocidade e Carisma Recomendados. ",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407757050,
+    "x": 45.54612937433723,
+    "y": 18.115942028985508
+  },
+  {
+    "operationId": "OP-617-Vendedores-Legais?",
+    "threatLevel": "🟡 Médio",
+    "objective": "Houve denuncia de vendedores vendendo coisas ilegais nessa região, verifiquem se é verdade não deem pinta que são heróis ou da policia, ou podem assustar eles, habilidades recomendadas, carisma e inteligência.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407888067,
+    "x": 31.760339342523856,
+    "y": 65.07246376811594
+  }
+]

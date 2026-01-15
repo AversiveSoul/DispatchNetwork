@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Tactical Interface</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #00ff41; font-family: 'Share+Tech+Mono', monospace; overflow: hidden; }
+        .scanline { width: 100%; height: 100px; z-index: 99; background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 65, 0.1) 50%, rgba(0, 0, 0, 0) 100%); opacity: 0.1; position: absolute; bottom: 100%; animation: scanline 10s linear infinite; pointer-events: none; }
+        @keyframes scanline { 0% { bottom: 100%; } 100% { bottom: -100%; } }
+        .crt::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none; }
+        .map-container { position: relative; width: 100%; height: 100%; cursor: crosshair; background-image: url('imagem/map.png'); background-size: cover; background-position: center; border: 1px solid #004411; }
+        .marker { position: absolute; transform: translate(-50%, -100%); cursor: pointer; transition: all 0.2s; z-index: 10; }
+        .marker:hover { transform: translate(-50%, -110%) scale(1.2); filter: drop-shadow(0 0 10px #00ff41); }
+        .glow-border { border: 1px solid #00ff41; box-shadow: 0 0 5px #00ff41; }
+        .terminal-bg { background: rgba(0, 15, 0, 0.95); }
+    </style>
+</head>
+<body class="crt">
+    <div id="root"></div>
+    <div class="scanline"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [missions, setMissions] = useState([]);
+            const [agents, setAgents] = useState([]);
+            const [selectedMission, setSelectedMission] = useState(null);
+            const [showForm, setShowForm] = useState(null);
+            const [status, setStatus] = useState("INICIALIZANDO...");
+            const [formData, setFormData] = useState({ operationId: '', threatLevel: '🟢 Baixo', objective: '' });
+
+            // --- FUNÇÃO DE CARGA AUTOMÁTICA ---
+            const syncDatabase = async () => {
+                setStatus("SINCRONIZANDO COM SATÉLITE...");
+                const timestamp = new Date().getTime(); // Força o download do arquivo novo (anti-cache)
+                
+                try {
+                    // Carrega Agentes e Missões simultaneamente
+                    const [resA, resM] = await Promise.all([
+                        fetch(`./agentes.json?v=${timestamp}`),
+                        fetch(`./missions.json?v=${timestamp}`)
+                    ]);
+
+                    if (!resA.ok || !resM.ok) throw new Error("Erro ao acessar arquivos JSON");
+
+                    const dataA = await resA.json();
+                    const dataM = await resM.json();
+
+                    setAgents(dataA);
+                    setMissions(dataM);
+                    setStatus("SISTEMA ONLINE");
+                } catch (err) {
+                    console.error("Falha na sincronização:", err);
+                    setStatus("ERRO: ARQUIVOS NÃO ENCONTRADOS");
+                }
+            };
+
+            // Executa assim que a página abre
+            useEffect(() => {
+                syncDatabase();
+            }, []);
+
+            const handleMapClick = (e) => {
+                if (e.target.classList.contains('map-container')) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    setShowForm({ x, y });
+                    setFormData({ ...formData, operationId: `OP-${Math.floor(Math.random() * 999)}-DELTA` });
+                }
+            };
+
+            const addMission = (e) => {
+                e.preventDefault();
+                const newMission = { ...formData, id: Date.now(), x: showForm.x, y: showForm.y };
+                setMissions([...missions, newMission]);
+                setShowForm(null);
+                alert("Missão adicionada temporariamente. Lembre-se de EXPORTAR para salvar no arquivo JSON!");
+            };
+
+            const exportMissions = () => {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(missions, null, 2));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "missions.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            };
+
+            return (
+                <div className="h-screen w-screen flex flex-col p-4">
+                    <header className="flex justify-between items-center mb-4 glow-border p-2 terminal-bg z-10">
+                        <div>
+                            <h1 className="text-xl font-bold tracking-widest uppercase italic">SDN Mission Network</h1>
+                            <nav className="flex gap-2 mt-1">
+                                <a href="SDNAgentNetwork.html" className="text-[10px] bg-blue-900/30 px-2 border border-blue-500 hover:bg-blue-500 hover:text-white transition-colors">GERENCIAR AGENTES</a>
+                            </nav>
+                        </div>
+                        <div className="text-[10px] text-right">
+                            <span className={status.includes("ERRO") ? "text-red-500" : "text-green-500 animate-pulse"}>● {status}</span><br/>
+                            <span>{missions.length} ALVOS EM MONITORAMENTO</span>
+                        </div>
+                    </header>
+
+                    <main className="flex-1 relative glow-border overflow-hidden bg-black">
+                        <div className="map-container" onClick={handleMapClick}>
+                            {missions.map(m => (
+                                <div key={m.id} className="marker flex flex-col items-center" style={{ left: `${m.x}%`, top: `${m.y}%` }}
+                                     onClick={(e) => { e.stopPropagation(); setSelectedMission(m); }}>
+                                    <div className={`w-5 h-5 rounded-full border-2 bg-black flex items-center justify-center animate-pulse ${m.threatLevel.includes('Alto') ? 'border-red-500' : 'border-green-500'}`}>
+                                        <div className={`w-1 h-1 rounded-full ${m.threatLevel.includes('Alto') ? 'bg-red-500' : 'bg-green-500'}`}></div>
+                                    </div>
+                                    <div className="bg-black/90 text-[8px] px-1 border border-green-900 text-green-400 mt-1">{m.operationId}</div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {selectedMission && (
+                            <div className="absolute right-4 top-4 w-64 glow-border terminal-bg p-4 z-40">
+                                <div className="flex justify-between items-center border-b border-green-500 mb-2 pb-1">
+                                    <span className="text-xs font-bold text-white">{selectedMission.operationId}</span>
+                                    <button onClick={() => setSelectedMission(null)} className="text-red-500 hover:text-white">✕</button>
+                                </div>
+                                <div className="text-[10px] space-y-3">
+                                    <p><span className="text-green-800 font-bold">[AMEAÇA]:</span> {selectedMission.threatLevel}</p>
+                                    <p><span className="text-green-800 font-bold">[OBJETIVO]:</span> {selectedMission.objective}</p>
+                                    <button 
+                                        onClick={() => {
+                                            setMissions(missions.filter(m => m.id !== selectedMission.id));
+                                            setSelectedMission(null);
+                                        }} 
+                                        className="w-full border border-red-600 text-red-500 p-2 mt-2 hover:bg-red-600 hover:text-black font-bold transition-all"
+                                    >
+                                        CONCLUIR / ARQUIVAR
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {showForm && (
+                            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+                                <form onSubmit={addMission} className="glow-border terminal-bg p-6 max-w-sm w-full flex flex-col gap-4">
+                                    <h2 className="text-sm border-b border-green-500 pb-2 uppercase text-center">Registrar Ocorrência</h2>
+                                    <input className="bg-black border border-green-900 p-2 text-xs text-green-400 outline-none" 
+                                           value={formData.operationId} onChange={e => setFormData({...formData, operationId: e.target.value})} placeholder="ID DA OPERAÇÃO" />
+                                    <select className="bg-black border border-green-900 p-2 text-xs text-green-400 outline-none"
+                                            value={formData.threatLevel} onChange={e => setFormData({...formData, threatLevel: e.target.value})}>
+                                        <option>🟢 Baixo</option><option>🟡 Médio</option><option>🔴 Alto</option>
+                                    </select>
+                                    <textarea className="bg-black border border-green-900 p-2 text-xs h-24 text-green-400 outline-none" 
+                                              placeholder="DESCRIÇÃO DA MISSÃO..." onChange={e => setFormData({...formData, objective: e.target.value})} required />
+                                    <div className="flex gap-2">
+                                        <button type="submit" className="flex-1 bg-green-600 text-black font-bold py-2 text-xs hover:bg-green-400">IMPLANTAR</button>
+                                        <button type="button" onClick={() => setShowForm(null)} className="flex-1 bg-gray-800 text-white py-2 text-xs hover:bg-red-900">ABORTAR</button>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
+                    </main>
+
+                    <footer className="mt-4 flex gap-3 overflow-x-auto pb-2 h-24">
+                        {agents.length > 0 ? agents.map((agent, i) => (
+                            <div key={i} className="min-w-[90px] glow-border terminal-bg p-2 flex flex-col items-center group">
+                                <div className="w-10 h-10 bg-black border border-green-900 overflow-hidden mb-1 group-hover:border-green-400 transition-colors">
+                                    <img 
+                                        src={`./FotosDosAgentes/${agent.portraitFilename}`} 
+                                        className="w-full h-full object-cover grayscale group-hover:grayscale-0" 
+                                        onError={(e) => { e.target.src='https://via.placeholder.com/40?text=SDN'; }}
+                                    />
+                                </div>
+                                <span className="text-[7px] font-bold truncate w-full text-center uppercase text-white">{agent.heroName}</span>
+                                <div className="w-full bg-green-900/30 h-[2px] mt-1">
+                                    <div className="bg-green-500 h-full" style={{width: `${agent.repSdn || 50}%`}}></div>
+                                </div>
+                            </div>
+                        )) : (
+                            <div className="text-[10px] italic text-green-900">Aguardando dados dos agentes...</div>
+                        )}
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
