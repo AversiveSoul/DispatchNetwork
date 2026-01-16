@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDN // STAFF_DATABASE</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-dark: #020617; /* Slate 950 */
+        --card-bg: #0f172a; /* Slate 900 */
+        --accent-blue: #38bdf8; /* Sky 400 */
+        --border-blue: #1e293b; /* Slate 800 */
+        --text-calm: #94a3b8; /* Slate 400 */
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-dark);
+        color: #f1f5f9;
+        overflow-x: hidden;
+      }
+      /* Efeito de Scanlines Azuladas */
+      .crt-overlay::before {
+        content: " ";
+        display: block;
+        position: fixed;
+        top: 0; left: 0; bottom: 0; right: 0;
+        background: linear-gradient(rgba(15, 23, 42, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                    linear-gradient(90deg, rgba(56, 189, 248, 0.03), rgba(0, 0, 0, 0), rgba(56, 189, 248, 0.03));
+        z-index: 100;
+        background-size: 100% 3px, 3px 100%;
+        pointer-events: none;
+      }
+      .font-mono-tactical { font-family: "Share Tech Mono", monospace; }
+      
+      .employee-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-blue);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .employee-card:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px -15px rgba(56, 189, 248, 0.3);
+      }
+
+      .popularity-bar { height: 6px; background: #1e293b; border-radius: 10px; overflow: hidden; }
+      .popularity-fill { 
+        height: 100%; 
+        background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      }
+
+      .profile-photo {
+        filter: saturate(0.8) sepia(0.2) hue-rotate(180deg);
+        border: 2px solid #1e293b;
+      }
+
+      /* Decoração de canto */
+      .corner-detail {
+        position: absolute;
+        top: 0; right: 0;
+        width: 40px; height: 40px;
+        background: linear-gradient(45deg, transparent 50%, rgba(56, 189, 248, 0.1) 50%);
+      }
+    </style>
+  </head>
+  <body class="crt-overlay">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      function EmployeeCard({ emp }) {
+        const popularity = parseInt(emp.PopularitySDN) || 0;
+
+        return (
+          <div className="employee-card w-full max-w-4xl p-6 mb-4 flex flex-col md:flex-row gap-6 rounded-lg">
+            <div className="corner-detail"></div>
+            
+            {/* Foto e Badge */}
+            <div className="w-full md:w-32 flex-shrink-0 flex flex-col items-center">
+              <div className="profile-photo w-32 h-32 rounded-full overflow-hidden mb-3">
+                <img 
+                  src={`./FotosDosFuncionarios/${emp.portraitFilename}`} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.target.src="https://via.placeholder.com/150?text=USER"; }}
+                />
+              </div>
+              <div className="px-3 py-1 bg-sky-500/10 border border-sky-500/30 rounded-full">
+                <span className="font-mono-tactical text-[10px] text-sky-400 font-bold uppercase tracking-wider">
+                  ID: #{emp.id.toString().padStart(4, '0')}
+                </span>
+              </div>
+            </div>
+
+            {/* Informações Principais */}
+            <div className="flex-1 space-y-4">
+              <div className="border-b border-slate-800 pb-3">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white tracking-tight">{emp.Name}</h2>
+                    <p className="text-sky-400 font-mono-tactical text-sm uppercase tracking-widest">{emp.Cargo}</p>
+                  </div>
+                  <div className="text-right hidden md:block">
+                    <p className="font-mono-tactical text-[10px] text-slate-500 uppercase">Status do Vínculo</p>
+                    <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-tighter">● ATIVO NO QUADRO</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-[10px] font-mono-tactical font-bold text-slate-500 uppercase block mb-1 tracking-widest">Biografia & Notas</label>
+                  <p className="text-sm text-slate-300 leading-relaxed italic">"{emp.Bio}"</p>
+                </div>
+
+                <div className="bg-slate-950/50 p-4 rounded border border-slate-800/50">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-[10px] font-mono-tactical font-bold text-slate-500 uppercase tracking-widest">Popularidade Interna</label>
+                    <span className="text-sky-400 font-mono-tactical text-xs">{popularity}%</span>
+                  </div>
+                  <div className="popularity-bar">
+                    <div className="popularity-fill" style={{ width: `${popularity}%` }}></div>
+                  </div>
+                  <p className="text-[9px] text-slate-600 mt-2 font-mono-tactical uppercase">Métrica baseada em feedbacks.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function App() {
+        const [staff, setStaff] = useState([]);
+        const [loading, setLoading] = useState(true);
+
+        useEffect(() => {
+          fetch(`./funcionarios.json?v=${new Date().getTime()}`)
+            .then(res => res.json())
+            .then(data => {
+              const dataArray = Array.isArray(data) ? data : [data];
+              setStaff(dataArray);
+              setLoading(false);
+            })
+            .catch(() => setLoading(false));
+        }, []);
+
+        if (loading) return (
+          <div className="h-screen flex items-center justify-center bg-[#020617] font-mono-tactical text-sky-800">
+            <div className="tracking-[0.8em] animate-pulse">CONNECTING_TO_HR_SERVER...</div>
+          </div>
+        );
+
+        return (
+          <div className="min-h-screen pb-20">
+            <header className="bg-slate-900/80 backdrop-blur-md p-4 border-b border-slate-800 sticky top-0 z-50">
+              <div className="max-w-6xl mx-auto flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-1 bg-sky-500 rounded-full"></div>
+                  <h1 className="font-mono-tactical text-lg font-bold text-white tracking-widest">SDN // INTERNAL_STAFF</h1>
+                </div>
+                <div className="flex gap-4">
+                  <a href="missions.html" className="text-[10px] font-bold text-slate-400 hover:text-sky-400 transition-colors font-mono-tactical uppercase tracking-widest">Terminal de Missões</a>
+                  <a href="SDNAgentNetwork.html" className="text-[10px] font-bold text-slate-400 hover:text-sky-400 transition-colors font-mono-tactical uppercase tracking-widest">Registro de Agentes</a>
+                  <a href="vilains.html" className="text-[10px] font-bold text-slate-400 hover:text-sky-400 transition-colors font-mono-tactical uppercase tracking-widest">Registro de Vilões</a>
+                </div>
+              </div>
+            </header>
+
+            <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center">
+              <div className="w-full max-w-4xl mb-8">
+                <h3 className="text-slate-500 font-mono-tactical text-xs uppercase tracking-[0.3em]">Listagem de Funcionarios Internos</h3>
+                <div className="h-px bg-gradient-to-r from-sky-500/50 to-transparent mt-2"></div>
+              </div>
+
+              {staff.map(emp => <EmployeeCard key={emp.id} emp={emp} />)}
+              
+              <footer className="mt-12 text-center opacity-30">
+                <p className="font-mono-tactical text-[10px] uppercase tracking-widest">Sistema de Gestão de Talentos SDN - 2026</p>
+              </footer>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

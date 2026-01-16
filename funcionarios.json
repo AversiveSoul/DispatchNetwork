@@ -1,0 +1,178 @@
+[
+{
+    "id": 111111,
+    "Name": "Regina Angela",
+    "Cargo": "Dispatcher",
+    "Bio": "TODO MUNDO AMA A REGINA! Quem não gosta dela já perdeu o coração, ou alma, impossivel odiar essa garota, literalmente a melhor amiga de todo mundo aqui, uma vez o Carlos pediu ela em namoro, que bobo, como caral*** ele não sabia que ela é lesbica, o fod* é que a Helena quando soube disso pediu ela em casamento, mas a coitada foi rejeitada, contudo todo mundo continua amando a Regina, MELHOR PESSOA EVER!!!",
+    "PopularitySDN": 100,
+    "portraitFilename": "1.jpg"
+  },
+{
+    "id": 223087,
+    "Name": "Bob Star",
+    "Cargo": "Cozinheiro da Cantina",
+    "Bio": "Faz os melhores burgues da cantina, mas não pode comer hamburguer, se não ele explode, literalmente...",
+    "PopularitySDN": 75,
+    "portraitFilename": "2.jpg"
+  },
+  {
+    "id": 389238,
+    "Name": "Júnior Filho",
+    "Cargo": "Atendente de balcão",
+    "Bio": "Extremamente educado e sorridente, até parece que a vida dele é boa e que ele não mora no bairro mais perigoso da cidade, que a casa dele desmoronou só 3x esse mês, o gato e o cachorro dele morreram em sequencia nos ultimos 20 dias, que o pai dele foi morto numa operação de super heroís, ele quase foi demitido semana retrasada, e que ele mal tem dinheiro para comer por causa das dividas, mas ele continua sorrindo.",
+    "PopularitySDN": 62,
+    "portraitFilename": "3.jpg"
+  },
+  {
+    "id": 431234,
+    "Name": "Sr. Silva",
+    "Cargo": "Segurança",
+    "Bio": "Só a galera do RH sabe o nome dele, mas todo mundo tem quase certeza que é João Silva (spoiler é João mesmo), Ele nunca precisou usar força. Só o olhar cansado já resolve qualquer confusão, mas tem uma aposta rolando falando que ele tem poderes e eu já sei a resposta, mas é legal deixar o misterio no ar.",
+    "PopularitySDN": 55,
+    "portraitFilename": "4.jpg"
+  },
+  {
+    "id": 512412,
+    "Name": "Helena Lima",
+    "Cargo": "Estagiária",
+    "Bio": "Chegou ontem, não literalmente ontem, só jeito de falar, mas já sabe segredos que ninguém lembra de ter contado, vantagens de ter dado mole para mim.",
+    "PopularitySDN": 35,
+    "portraitFilename": "5.jpg"
+  },
+  {
+    "id": 612412,
+    "Name": "Carlos Lian",
+    "Cargo": "Manutenção",
+    "Bio": "Conserta tudo com fita isolante, fé e as vezes parece que a fisica não se aplica as invenções, ou ferramentas dele. Ele definitivamente tem poderes",
+    "PopularitySDN": 50,
+    "portraitFilename": "6.jpg"
+  },
+  {
+    "id": 712334,
+    "Name": "Xeltronius Zorgonix",
+    "Cargo": "Gerente",
+    "Bio": "Bom o chefe na verdade é um careca chamado Claudio, mas ele tá de licensa maternidade, ai colocaram esse super ai para administrar a nova equipe do predio.",
+    "PopularitySDN": 70,
+    "portraitFilename": "7.jpg"
+  },
+  {
+    "id": 812313,
+    "Name": "Renan Borges",
+    "Cargo": "TI",
+    "Bio": "Resolve qualquer problema dizendo 'já tentou desligar e ligar de novo?'",
+    "PopularitySDN": 45,
+    "portraitFilename": "8.jpg"
+  },
+  {
+    "id": 90014,
+    "Name": "Marcos Silva",
+    "Cargo": "Limpeza",
+    "Team": "Time de Limpeza",
+    "Bio": "Conhece cada corredor do prédio melhor que um mapa ou gps interno, se houvesse uma invasão aqui, ele seria o principal suspeito.",
+    "PopularitySDN": 62,
+    "portraitFilename": "9.jpg"
+  },
+  {
+    "id": 987822,
+    "Name": "Tia Lúcia",
+    "Cargo": "Supervisora de Limpeza",
+    "Team": "Time de Limpeza",
+    "Bio": "Mantém tudo impecável e ninguém sabe como ela faz tão rápido, um verdadeira genia nas artes maciais da limpeza, além de ser muito fofa com todo mundo.",
+    "PopularitySDN": 80,
+    "portraitFilename": "10.jpg"
+  },
+
+{
+    "id": 512311,
+    "Name": "Alice S.",
+    "Cargo": "Líder Geral Dos Recursos Humanos da SDN",
+    "Team": "Time de RH",
+    "Bio": "Você merece um aumento e nem to falando isso para ficar em bons termos com você, você genuinamente merece um aumento.",
+    "PopularitySDN": 60,
+    "portraitFilename": "20.jpg"
+  },
+  {
+    "id": 512311,
+    "Name": "Fernanda Costa",
+    "Cargo": "Recursos Humanos",
+    "Team": "Time de RH",
+    "Bio": "Acha que sabe de tudo, mas ela não sou eu, então ela só acha que sabe de tudo.",
+    "PopularitySDN": 55,
+    "portraitFilename": "11.jpg"
+  },
+  {
+    "id": 200222,
+    "Name": "Paulo Menezes",
+    "Cargo": "Analista de RH",
+    "Team": "Time de RH",
+    "Bio": "Especialista em demitir os outros, é um puta de um cuzão, isso mesmo seu merda, te xinguei na cara dura, até desativei a censura aqui, vai fazer o que? me demitir?",
+    "PopularitySDN": 28,
+    "portraitFilename": "12.jpg"
+  },
+
+  {
+    "id": 300221,
+    "Name": "Dra. Sally Smith",
+    "Cargo": "Médica de Resgate",
+    "Team": "Time Médico de Resgate",
+    "Bio": "Ela tem algum poder de super velocidade e um ego inflado não sei explicar, mas ela é toda moralista e fala que vai ser uma heroina de verdade salvando literalmente vidas e não se pondo em risco pelos outros.",
+    "PopularitySDN": 45,
+    "portraitFilename": "13.jpg"
+  },
+  {
+    "id": 340522,
+    "Name": "Igor Batista",
+    "Cargo": "Paramédico",
+    "Team": "Time Médico de Resgate",
+    "Bio": "Nunca vi um cara tão viciado em trabalho sempre chega primeiro e sai por último, pelo menos ninguém morre no turno dele.",
+    "PopularitySDN": 73,
+    "portraitFilename": "14.jpg"
+  },
+
+  {
+    "id": 467851,
+    "Name": "Ana Luísa Pacheco",
+    "Cargo": "Médica Residente",
+    "Team": "Time Médico Residente",
+    "Bio": "Ninguem sabe porque ela foi demitida do melhor hospital da cidade (na verdade eu sei, mas não vou falar), o importante é que ela trabalha aqui agora.",
+    "PopularitySDN": 60,
+    "portraitFilename": "15.jpg"
+  },
+  {
+    "id": 455267,
+    "Name": "Rafael Nunes",
+    "Cargo": "Residente",
+    "Team": "Time Médico Residente",
+    "Bio": "Ele tem uns poderes medicos legais, mas a galera diz que machuca muito quando ele usa.",
+    "PopularitySDN": 52,
+    "portraitFilename": "16.jpg"
+  },
+
+  {
+    "id": 505531,
+    "Name": "Renan Borges",
+    "Cargo": "Infraestrutura de TI",
+    "Team": "Time de TI (Network)",
+    "Bio": "Construiu a rede da empresa mas nenhum pagamento compensa as noites de sono perdidas dele, e ele gosta enfatizar isso.",
+    "PopularitySDN": 68,
+    "portraitFilename": "17.jpg"
+  },
+  {
+    "id": 254521,
+    "Name": "Camila Torres",
+    "Cargo": "Engenheira de Redes",
+    "Team": "Time de TI (Network)",
+    "Bio": "Viciada em café, é a do time que sabe explicar as coisas de forma mais simples e se deu mer***, chama ela.",
+    "PopularitySDN": 75,
+    "portraitFilename": "18.jpg"
+  },
+   {
+    "id": 909538,
+    "Name": "Kleber 404",
+    "Cargo": "Infraestrutura de TI",
+    "Team": "Time de TI (Network)",
+    "Bio": "Sabe o cara que escreve esses textinhos e fofoca sobre vocês? Sou eu, eu sei de tudo que rola aqui dentro.",
+    "PopularitySDN": 12,
+    "portraitFilename": "19.jpg"
+  }
+]

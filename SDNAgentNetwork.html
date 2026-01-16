@@ -140,34 +140,31 @@
           <div className="min-h-screen pb-20 relative z-10">
             <header className="bg-[#0d1413] text-white p-5 shadow-2xl border-b border-[#46fa5b]/30">
               <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                <div className="flex items-center gap-8">
-                  <div>
-                    <h1 className="font-display text-3xl font-black tracking-tighter text-[#46fa5b] italic">
-                      SDN // AGENT_NETWORK
-                    </h1>
-                    <p className="text-[10px] font-mono-tactical text-[#46fa5b] opacity-70 tracking-[0.3em]">
-                      PROTOCOL: {status}
-                    </p>
-                  </div>
-                </div>
-
                 <div className="flex gap-4 items-center">
-                  <a href="missions.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
-                    TERMINAL DE MISSÕES
-                  </a>
+  <a href="vilains.html" className="bg-red-900/20 border border-red-600/50 text-red-500 px-4 py-2 rounded text-[10px] font-bold hover:bg-red-600 hover:text-white transition-all tracking-widest">
+    Registro de Vilões
+  </a>
 
-                  <select
-                    className="bg-black border border-[#46fa5b]/50 rounded px-4 py-2 text-sm outline-none text-[#46fa5b] font-mono-tactical cursor-pointer"
-                    value={activeId || ""}
-                    onChange={(e) => setActiveId(Number(e.target.value))}
-                  >
-                    {sheets.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        AGENTE: {s.heroName.toUpperCase()}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+  <a href="missions.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
+    TERMINAL DE MISSÕES
+  </a>
+
+  <a href="funcionarios.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
+    Registro de Funcionários
+  </a>
+
+  <select
+    className="bg-black border border-[#46fa5b]/50 rounded px-4 py-2 text-sm outline-none text-[#46fa5b] font-mono-tactical cursor-pointer"
+    value={activeId || ""}
+    onChange={(e) => setActiveId(Number(e.target.value))}
+  >
+    {sheets.map((s) => (
+      <option key={s.id} value={s.id}>
+        AGENTE: {s.heroName.toUpperCase()}
+      </option>
+    ))}
+  </select>
+</div>
               </div>
             </header>
 
@@ -206,7 +203,7 @@
                   </h2>
                   <div className="space-y-4">
                     {[
-                      { label: "Conexão SDN", val: activeSheet.repSdn, color: "accent-[#46fa5b]" },
+                      { label: "Confiança da SDN", val: activeSheet.repSdn, color: "accent-[#46fa5b]" },
                       { label: "Status na Mídia", val: activeSheet.repMedia, color: "accent-blue-500" },
                       { label: "Apoio Civil", val: activeSheet.repCivis, color: "accent-orange-500" }
                     ].map((rep, idx) => (

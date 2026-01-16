@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "vilainName": "Blackout",
+    "powers": "Capaz de desligar completamente qualquer infraestrutura elétrica em um raio de 4km.",
+    "weaknesses": "Depende de concentração constante, facil de localizar e sobrecarga sensorial quebra o controle facilmente.",
+    "fearSdn": 78,
+    "fearMedia": 85,
+    "fearCivis": 92,
+    "portraitFilename": "1.jpg"
+  },
+  {
+    "id": 2,
+    "vilainName": "White Noise",
+    "powers": "Interfere em comunicações digitais e biológicas, causando confusão, lapsos de memória e falhas de comando com sua voz.",
+    "weaknesses": "Só tapar bem os ouvidos, ou enfrentar ele em algum local que o som não se propague, ou que mal dê para ouvir ele.",
+    "fearSdn": 82,
+    "fearMedia": 76,
+    "fearCivis": 69,
+    "portraitFilename": "2.jpg"
+  },
+  {
+    "id": 3,
+    "vilainName": "Julgador da Noite",
+    "powers": "Ninguém sabe o poder desse cara, nem eu... a gente só sabe que ele mata qualquer pessoa que infrija a lei, qualquer lei, tipo atravasser a rua fora da faixa, ele literalmente mata, ele normalmente mata entre as 22:00 e 2:00, mas sempre dá um jeito de fugir, já matou mais de 20 pessoas...",
+    "weaknesses": "Não sair de noite nas regiões que ele patrulha?",
+    "fearSdn": 84,
+    "fearMedia": 100,
+    "fearCivis": 100,
+    "portraitFilename": "3.jpg"
+  },
+  {
+    "id": 4,
+    "vilainName": "Redshift",
+    "powers": "Consegue virar uma copia perfeita de alguem, a diferença é que ela sempre vira uma copia ruiva da pessoa.",
+    "weaknesses": "Não consegue copiar alguem sem ter contato com o sangue da pessoa.",
+    "fearSdn": 57,
+    "fearMedia": 91,
+    "fearCivis": 94,
+    "portraitFilename": "4.jpg"
+  },
+  {
+    "id": 5,
+    "vilainName": "Undercity",
+    "powers": "Quem foi o genio que criou um monstro de diamante puro que não tem consciencia e fica andando embaixo da cidade buscando seres vivos para matar? Ultima vez visto no esgoto ele é só um monstro super forte e resistente.",
+    "weaknesses": "Qualquer coisa que consiga quebrar um diamante, ou pessoa que tenha força para isso.",
+    "fearSdn": 93,
+    "fearMedia": 89,
+    "fearCivis": 81,
+    "portraitFilename": "5.jpg"
+  },
+  {
+    "id": 6,
+    "vilainName": "Deathwalker",
+    "powers": "Não é bem uma pessoa é uma mascara que controla uma pessoa, e sempre que alguem é possuido por essa mascara a pessoa vira um tipo de entidade demoniaca auto intitulada DeathWalker ai ele fala de vingança e que tá querendo achar um tal de Ajax, e fica fazendo mó caos desnecessario, espero que encontrem essa mascara logo antes que alguem resolva vestir.",
+    "weaknesses": "Perde controle rapidamente e não consegue atuar longe dos corpos animados.",
+    "fearSdn": 96,
+    "fearMedia": 98,
+    "fearCivis": 100,
+    "portraitFilename": "6.jpg"
+  },
+  {
+    "id": 7,
+    "vilainName": "Rei de Vidro",
+    "powers": "Manipula percepção coletiva, fazendo multidões aceitarem mentiras como verdades absolutas.",
+    "weaknesses": "É só um cara normal, bem fragil na verdade, um soco na cara antes dele falar qualquer merda resolve o problema.",
+    "fearSdn": 85,
+    "fearMedia": 94,
+    "fearCivis": 52,
+    "portraitFilename": "7.jpg"
+  },
+  {
+    "id": 8,
+    "vilainName": "Cold Ice",
+    "powers": "Ele cria e controla gelo.",
+    "weaknesses": "Obvio né, ambientes de alta temperatura e energia ou alguem com poder de fogo maior que o de gelo dele.",
+    "fearSdn": 92,
+    "fearMedia": 90,
+    "fearCivis": 97,
+    "portraitFilename": "8.jpg"
+  },
+   {
+    "id": 8,
+    "vilainName": "Sixerin",
+    "powers": "Não pode ser machucado a não ser que se imagine sendo machucado, se auto denonima o rival do Severin, legal que ninguem sabia desse cara até anunciarem que o Severin iria entrar na SDN.",
+    "weaknesses": "Coisas subconscientes como um soco na direção dele são bem efetivas, poderes e magia nem tanto, resumindo dá para descer ele no soco, o foda é que até os socos de alguem super forte só são socos normais nele porque o subsconsciente dele não consegue imaginar o soco matando ele, armas de fogo são bem efetivas tambem, mas preferimos deixar como ultimo recurso.",
+    "fearSdn": 92,
+    "fearMedia": 90,
+    "fearCivis": 97,
+    "portraitFilename": "9.jpg"
+  }
+]

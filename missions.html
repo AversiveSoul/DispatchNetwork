@@ -10,54 +10,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050505; color: #00ff41; font-family: 'Share+Tech+Mono', monospace; overflow: hidden; }
+        body { background-color: #050505; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
         
-        /* Efeito de Scanline aprimorado */
         .scanline { width: 100%; height: 100px; z-index: 99; background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 65, 0.1) 50%, rgba(0, 0, 0, 0) 100%); opacity: 0.1; position: absolute; bottom: 100%; animation: scanline 10s linear infinite; pointer-events: none; }
         @keyframes scanline { 0% { bottom: 100%; } 100% { bottom: -100%; } }
         
         .crt::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none; }
         
-        .map-container { 
-            position: relative; 
-            width: 100%; 
-            height: 100%; 
-            cursor: crosshair; 
-            background-image: url('Dispatch_map.png'); 
-            background-size: cover; 
-            background-position: center; 
-            border: 2px solid #004411; 
-        }
+        .map-container { position: relative; width: 100%; height: 100%; cursor: crosshair; background-image: url('Dispatch_map.png'); background-size: cover; background-position: center; border: 2px solid #004411; }
 
-        /* BOLINHAS MAIORES (Estilo radar/alerta) */
+        /* DESIGN DOS MARCADORES (ESTILO RADAR) */
         .marker { position: absolute; transform: translate(-50%, -50%); cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; }
         .marker:hover { transform: translate(-50%, -50%) scale(1.3); }
         
         .marker-core {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid currentColor;
-            background: rgba(0,0,0,0.7);
+            width: 35px; height: 35px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid currentColor; background: rgba(0,0,0,0.7);
             box-shadow: 0 0 15px currentColor;
         }
 
-        .marker-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-        }
+        .marker-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
         .pulse-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid currentColor;
-            border-radius: 50%;
+            position: absolute; width: 100%; height: 100%;
+            border: 2px solid currentColor; border-radius: 50%;
             animation: pulse 2s infinite;
         }
 
@@ -66,24 +43,18 @@
             100% { transform: scale(2.5); opacity: 0; }
         }
 
-        .glow-border { border: 1px solid #00ff41; box-shadow: 0 0 10px rgba(0, 255, 65, 0.3); }
-        .terminal-bg { background: linear-gradient(180deg, rgba(0, 20, 0, 0.95) 0%, rgba(0, 5, 0, 0.98) 100%); }
+        .nav-link { position: relative; padding: 8px 16px; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; border: 1px solid transparent; }
+        .nav-link.agents { color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); }
+        .nav-link.villains { color: #f87171; border-color: rgba(248, 113, 113, 0.3); }
+        .nav-link:hover { background: rgba(255, 255, 255, 0.05); border-color: currentColor; box-shadow: 0 0 10px currentColor; }
         
-        /* Botão Grande */
-        .btn-manage {
-            font-size: 14px;
-            letter-spacing: 2px;
-            padding: 10px 25px;
-            border: 2px solid #3b82f6;
-            background: rgba(30, 58, 138, 0.4);
-            color: #fff;
-            text-shadow: 0 0 5px #3b82f6;
-            transition: all 0.3s;
-        }
-        .btn-manage:hover {
-            background: #3b82f6;
-            box-shadow: 0 0 20px #3b82f6;
-        }
+        .glow-border { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); }
+        .terminal-bg { background: rgba(2, 8, 2, 0.9); }
+        
+        .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #000; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #004411; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #00ff41; }
     </style>
 </head>
 <body class="crt">
@@ -97,96 +68,87 @@
             const [missions, setMissions] = useState([]);
             const [agents, setAgents] = useState([]);
             const [selectedMission, setSelectedMission] = useState(null);
-            const [showForm, setShowForm] = useState(null);
-            const [status, setStatus] = useState("INICIALIZANDO...");
-            const [formData, setFormData] = useState({ operationId: '', threatLevel: '🟢 Baixo', objective: '' });
+            const [status, setStatus] = useState("SISTEMA ONLINE");
 
             const syncDatabase = async () => {
-                setStatus("SINCRONIZANDO...");
                 const timestamp = new Date().getTime();
                 try {
                     const [resA, resM] = await Promise.all([
                         fetch(`./agentes.json?v=${timestamp}`),
                         fetch(`./missions.json?v=${timestamp}`)
                     ]);
+                    
+                    if (!resA.ok || !resM.ok) throw new Error("Erro no carregamento");
+
                     const dataA = await resA.json();
                     const dataM = await resM.json();
-                    setAgents(dataA);
-                    setMissions(dataM);
+
+                    setAgents(Array.isArray(dataA) ? dataA : [dataA]);
+                    setMissions(Array.isArray(dataM) ? dataM : [dataM]);
                     setStatus("SISTEMA ONLINE");
-                } catch (err) {
-                    setStatus("ERRO DE CONEXÃO");
+                } catch (err) { 
+                    console.error(err);
+                    setStatus("ERRO DE SINCRONIA"); 
                 }
             };
 
             useEffect(() => { syncDatabase(); }, []);
 
-            const handleMapClick = (e) => {
-                if (e.target.classList.contains('map-container')) {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    setShowForm({ x, y });
-                    setFormData({ ...formData, operationId: `OP-${Math.floor(Math.random() * 999)}-DELTA` });
-                }
-            };
-
             return (
-                <div className="h-screen w-screen flex flex-col p-6">
-                    {/* HEADER ESTILIZADO */}
-                    <header className="flex justify-between items-stretch mb-6 glow-border terminal-bg z-10 p-4 border-l-4 border-l-green-500">
-                        <div className="flex flex-col items-start gap-4">
-    <div className="flex items-baseline gap-2">
-        <h1 className="text-3xl font-light tracking-[0.5em] uppercase text-green-500">
-            SDN<span className="font-black tracking-normal">NETWORK</span>
-        </h1>
-        <div className="h-1 w-24 bg-green-500/20"></div>
-    </div>
-    
-    <nav>
-        <a href="SDNAgentNetwork.html" 
-           className="relative group block p-[2px] bg-gradient-to-r from-blue-600 to-cyan-400 hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all">
-            <div className="bg-black px-10 py-4 group-hover:bg-transparent transition-colors">
-                <span className="text-xl font-bold tracking-widest text-blue-400 group-hover:text-white transition-colors">
-                    &gt; ACESSAR REGISTRO DE AGENTES
-                </span>
-            </div>
-        </a>
-    </nav>
-</div>
-                        
-                        <div className="flex flex-col justify-between text-right border-l border-green-900 pl-6">
+                <div className="h-screen w-screen flex flex-col p-4">
+                    {/* HEADER */}
+                    <header className="flex justify-between items-center mb-4 p-3 glow-border terminal-bg">
+                        <div className="flex items-center gap-6">
                             <div>
-                                <div className="text-[12px] font-bold text-green-500 flex items-center justify-end gap-2">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                <h1 className="text-xl font-light tracking-[0.3em] text-green-500">
+                                    SDN//<span className="font-black tracking-normal">NETWORK</span>
+                                </h1>
+                                <div className="text-[9px] text-green-800 tracking-widest uppercase">Protocol: Encrypted_Access</div>
+                            </div>
+
+                            <nav className="flex gap-3 border-l border-green-900 pl-6">
+                                <a href="SDNAgentNetwork.html" className="nav-link agents">Registro de Agentes</a>
+                                <a href="vilains.html" className="nav-link villains">Registro de Vilões</a>
+                                <a href="funcionarios.html" className="nav-link agents">Registro de Funcionários</a>
+                            </nav>
+                        </div>
+                        
+                        <div className="flex gap-8 text-right items-center">
+                            <div>
+                                <div className="text-[10px] text-green-500 flex items-center justify-end gap-1.5 font-bold">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
                                     </span>
                                     {status}
                                 </div>
-                                <div className="text-[10px] text-green-800 uppercase tracking-widest mt-1">Status do Satélite: Ativo</div>
-                            </div>
-                            <div className="text-sm font-bold">
-                                {missions.length} MISSÕES RASTREADAS
+                                <div className="text-xs font-black uppercase">{missions.length} Missões Ativas</div>
                             </div>
                         </div>
                     </header>
 
-                    <main className="flex-1 relative glow-border overflow-hidden bg-black shadow-inner">
-                        <div className="map-container" onClick={handleMapClick}>
-                            {missions.map(m => {
-                                const isHigh = m.threatLevel.includes('Alto') || m.threatLevel.includes('Crítico');
+                    {/* MAPA PRINCIPAL */}
+                    <main className="flex-1 relative glow-border overflow-hidden bg-black">
+                        <div className="map-container">
+                            {missions.map((m) => {
+                                // Define a cor baseada no nível de ameaça
+                                const isHigh = m.threatLevel?.toLowerCase().includes('alta') || 
+                                               m.threatLevel?.toLowerCase().includes('crítico');
                                 const colorClass = isHigh ? 'text-red-500' : 'text-green-500';
-                                
+
                                 return (
-                                    <div key={m.id} className={`marker ${colorClass}`} style={{ left: `${m.x}%`, top: `${m.y}%` }}
-                                         onClick={(e) => { e.stopPropagation(); setSelectedMission(m); }}>
+                                    <div 
+                                        key={m.id} 
+                                        className={`marker ${colorClass}`} 
+                                        style={{ left: `${m.x}%`, top: `${m.y}%` }}
+                                        onClick={() => setSelectedMission(m)}
+                                    >
                                         <div className="pulse-ring"></div>
                                         <div className="marker-core">
                                             <div className="marker-dot"></div>
                                         </div>
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap">
-                                            <span className="bg-black/80 text-[10px] px-2 py-0.5 border border-current font-bold">
+                                            <span className="bg-black/80 text-[10px] px-2 py-0.5 border border-current font-bold uppercase">
                                                 {m.operationId}
                                             </span>
                                         </div>
@@ -195,33 +157,37 @@
                             })}
                         </div>
 
+                        {/* PAINEL DE DETALHES */}
                         {selectedMission && (
-                            <div className="absolute right-6 top-6 w-80 glow-border terminal-bg p-5 z-40 border-t-4 border-t-white animate-in fade-in slide-in-from-right">
-                                <div className="flex justify-between items-center border-b border-green-500 mb-4 pb-2">
-                                    <span className="text-lg font-black text-white italic">{selectedMission.operationId}</span>
-                                    <button onClick={() => setSelectedMission(null)} className="text-red-500 hover:scale-125 transition-transform font-bold">✕</button>
+                            <div className="absolute right-4 top-4 w-72 glow-border terminal-bg p-4 z-40 border-t-2 border-t-white shadow-2xl animate-in fade-in slide-in-from-right">
+                                <div className="flex justify-between items-center border-b border-green-900 mb-3 pb-1">
+                                    <span className="text-sm font-black text-white italic uppercase">{selectedMission.operationId}</span>
+                                    <button onClick={() => setSelectedMission(null)} className="text-red-500 text-xs hover:scale-125 transition-transform">FECHAR</button>
                                 </div>
-                                <div className="text-xs space-y-4">
-                                    <p className="flex flex-col"><span className="text-green-800 font-bold uppercase text-[10px]">[Nível de Ameaça]</span> <span className="text-white text-sm">{selectedMission.threatLevel}</span></p>
-                                    <p className="flex flex-col"><span className="text-green-800 font-bold uppercase text-[10px]">[Objetivo Tático]</span> <span className="text-white leading-relaxed">{selectedMission.objective}</span></p>
+                                <div className="text-[11px] space-y-3">
+                                    <p><span className="text-green-800 block uppercase font-bold text-[9px]">[Nível de Ameaça]</span> <span className="text-white font-bold">{selectedMission.threatLevel}</span></p>
+                                    <p><span className="text-green-800 block uppercase font-bold text-[9px]">[Objetivo Tático]</span> <span className="text-gray-300">{selectedMission.objective}</span></p>
                                 </div>
                             </div>
                         )}
                     </main>
 
-                    <footer className="mt-6 flex gap-4 overflow-x-auto pb-4 h-48 custom-scrollbar">
+                    {/* RODAPÉ DE AGENTES */}
+                    <footer className="mt-4 flex gap-3 overflow-x-auto pb-2 h-40 custom-scrollbar">
                         {agents.map((agent, i) => (
-                            <div key={i} className="min-w-[140px] glow-border terminal-bg p-3 flex flex-col items-center group hover:border-white transition-all">
-                                <div className="w-24 h-28 bg-black border border-green-900 overflow-hidden mb-3 group-hover:border-green-400">
+                            <div key={i} className="min-w-[110px] glow-border terminal-bg p-2 flex flex-col items-center group hover:bg-green-950/20 transition-colors">
+                                <div className="w-full h-24 bg-black border border-green-900 overflow-hidden mb-2 group-hover:border-green-500">
                                     <img 
                                         src={`./FotosDosAgentes/${agent.portraitFilename}`} 
-                                        className="w-full h-full object-cover transition-transform group-hover:scale-110" 
-                                        onError={(e) => { e.target.src='https://via.placeholder.com/100x120?text=AGENTE'; }}
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all group-hover:scale-105" 
+                                        onError={(e) => { e.target.src='https://via.placeholder.com/100x120?text=USER'; }}
                                     />
                                 </div>
-                                <span className="text-xs font-black truncate w-full text-center uppercase text-white mb-2">{agent.heroName}</span>
-                                <div className="w-full bg-green-900/30 h-1.5 rounded-full overflow-hidden">
-                                    <div className="bg-green-500 h-full shadow-[0_0_8px_#00ff41]" style={{width: `${agent.repSdn || 50}%`}}></div>
+                                <span className="text-[10px] font-bold truncate w-full text-center uppercase text-white mb-1.5">
+                                    {agent.heroName || agent.Name}
+                                </span>
+                                <div className="w-full bg-green-900/30 h-1 rounded-full">
+                                    <div className="bg-green-500 h-full shadow-[0_0_5px_#00ff41]" style={{width: `${agent.repSdn || agent.PopularitySDN || 50}%`}}></div>
                                 </div>
                             </div>
                         ))}
