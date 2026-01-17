@@ -4,79 +4,197 @@
     <meta charset="UTF-8">
     <title>S.D.N. - Acesso Restrito</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050505; color: #00ff41; font-family: 'Share+Tech+Mono', monospace; }
-        .login-box { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); background: rgba(0, 20, 0, 0.9); }
-        input { background: #000; border: 1px solid #00ff41; color: #00ff41; outline: none; padding: 10px; width: 100%; }
-        button { background: #00ff41; color: #000; font-weight: bold; transition: all 0.3s; cursor: pointer; width: 100%; padding: 10px 0; }
-        button:hover { background: #000; color: #00ff41; box-shadow: 0 0 10px #00ff41; }
-        select { background: #000; border: 1px solid #00ff41; color: #00ff41; padding: 10px; outline: none; }
+        :root {
+            --neon-green: #46fa5b;
+            --bg-dark: #0a0e0d;
+        }
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--neon-green); 
+            font-family: 'Share+Tech+Mono', monospace; 
+            overflow: hidden;
+        }
+        .login-box { 
+            border: 1px solid rgba(70, 250, 91, 0.3); 
+            box-shadow: 0 0 20px rgba(70, 250, 91, 0.1); 
+            background: rgba(13, 20, 19, 0.95); 
+            border-radius: 4px;
+        }
+        input { 
+            background: #050807; 
+            border: 1px solid rgba(70, 250, 91, 0.3); 
+            color: var(--neon-green); 
+            outline: none; 
+            padding: 10px; 
+            width: 100%; 
+        }
+        button { 
+            background: var(--neon-green); 
+            color: #000; 
+            font-weight: bold; 
+            transition: all 0.3s; 
+            cursor: pointer; 
+            width: 100%; 
+            padding: 10px 0; 
+            letter-spacing: 2px;
+        }
+        button:hover { 
+            background: #000; 
+            color: var(--neon-green); 
+            box-shadow: 0 0 15px var(--neon-green); 
+        }
+
+        /* Estilo dos Cards igual à página principal */
+        .agent-card {
+            background: #121c1b;
+            border: 1px solid rgba(70, 250, 91, 0.15);
+            transition: all 0.3s;
+            cursor: pointer;
+            filter: grayscale(100%) opacity(0.6);
+        }
+        .agent-card:hover, .agent-card.selected {
+            filter: grayscale(0%) opacity(1);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(70, 250, 91, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e5655; border-radius: 10px; }
     </style>
 </head>
-<body class="h-screen flex items-center justify-center">
-    <div class="login-box p-8 w-96 flex flex-col gap-6">
-        <div class="text-center">
-            <h1 class="text-2xl tracking-[0.2em] mb-2 uppercase">SDN NETWORK</h1>
-            <p class="text-[10px] opacity-50">SISTEMA DE AUTENTICAÇÃO CENTRAL</p>
+<body class="h-screen flex items-center justify-center p-4">
+    <div class="login-box p-8 w-full max-w-3xl flex flex-col gap-6">
+        <div class="text-center border-b border-white/10 pb-4">
+            <h1 class="text-2xl tracking-[0.3em] font-bold uppercase" style="font-family: 'Outfit', sans-serif;">SDN NETWORK</h1>
+            <p class="text-[10px] opacity-50">TACTICAL DATABASE - USER AUTHENTICATION</p>
         </div>
         
-        <div class="flex flex-col gap-4">
-            <label class="text-[10px]">SELECIONE O AGENTE:</label>
-            <select id="user">
-                <option value="Constantino">Constantino</option>
-                <option value="Severin">Severin</option>
-                <option value="Ajato">Ajato</option>
-                <option value="Compliance">Compliance</option>
-            </select>
+        <div class="flex flex-col gap-6">
+            <label class="text-[10px] uppercase tracking-widest text-center">Selecione sua credencial tática:</label>
             
-            <label class="text-[10px]">CHAVE DE ACESSO:</label>
-            <input type="password" id="pass" placeholder="••••••••">
-            
-            <button onclick="handleLogin()">AUTENTICAR</button>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 max-h-64 overflow-y-auto p-2 custom-scrollbar" id="agent-grid">
+                <p class="col-span-full text-center text-xs animate-pulse">Carregando agentes...</p>
+            </div>
+
+            <div id="login-fields" class="flex flex-col gap-4 opacity-10 pointer-events-none transition-all duration-500">
+                <div class="bg-black/50 p-3 border-l-2 border-white/20">
+                    <p id="welcome-msg" class="text-[11px] leading-relaxed italic opacity-80">
+                        Selecione um agente acima para iniciar a descriptografia.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] uppercase">Chave de Acesso:</label>
+                        <input type="password" id="pass" placeholder="••••••••">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-3 p-2 border border-white/5 bg-black/20">
+                            <input type="checkbox" id="not-villain" class="w-4 h-4 cursor-pointer">
+                            <label for="not-villain" class="text-[9px] cursor-pointer uppercase">Eu não sou um vilão.</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="handleLogin()">AUTENTICAR IDENTIDADE</button>
+            </div>
         </div>
         
-        <p id="error" class="text-red-500 text-[10px] text-center hidden">ACESSO NEGADO: CREDENCIAIS INVÁLIDAS</p>
+        <p id="error" class="text-red-500 text-[10px] text-center hidden font-bold"></p>
     </div>
 
     <script>
-        // Função para testar a senha RachelRPG
+        let selectedAgentName = null;
+        let passwords = {
+            "Compliance": "admin.s",
+            "Severin": "JHAs4yVJQJ",
+            "Constantino": "Gag",
+            "Ajato": "skyshow",
+            "Super Estrelado": "unicornio"
+        };
+
+        // Carrega os agentes do arquivo JSON
+        async function loadAgentsForLogin() {
+            try {
+                const response = await fetch('./agentes.json');
+                const agents = await response.json();
+                const grid = document.getElementById('agent-grid');
+                grid.innerHTML = ''; // Limpa o carregando
+
+                agents.forEach(agent => {
+                    const card = document.createElement('div');
+                    card.className = 'agent-card p-2 text-center';
+                    card.onclick = () => selectAgent(agent.heroName);
+                    card.innerHTML = `
+                        <div class="aspect-[3/4] bg-black mb-2 overflow-hidden border border-white/10">
+                            <img src="./FotosDosAgentes/${agent.portraitFilename}" 
+                                 class="w-full h-full object-cover" 
+                                 onerror="this.src='https://via.placeholder.com/150?text=NO_IMG'">
+                        </div>
+                        <p class="text-[9px] font-bold uppercase truncate">${agent.heroName}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                document.getElementById('agent-grid').innerHTML = '<p class="col-span-full text-red-500 text-xs text-center">ERRO AO CARREGAR DATABASE</p>';
+            }
+        }
+
+        function selectAgent(name) {
+            selectedAgentName = name;
+            
+            // UI Update
+            document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+
+            const fields = document.getElementById('login-fields');
+            fields.classList.remove('opacity-10', 'pointer-events-none');
+            
+            document.getElementById('welcome-msg').innerHTML = 
+                `Olá, <span class="text-white font-bold">${name}</span>. Poderia inserir sua senha para confirmar que é você?`;
+            
+            document.getElementById('error').classList.add('hidden');
+            document.getElementById('pass').focus();
+        }
+
         async function handleLogin() {
             const inputPass = document.getElementById('pass').value;
+            const isNotVillain = document.getElementById('not-villain').checked;
             const errorMsg = document.getElementById('error');
             
-            // Senha correta definida: RachelRPG
-            const masterPass = "RachelRPG";
+            if (!selectedAgentName) return;
 
-            // Para o GitHub e fins de RPG, vamos usar a comparação direta.
-            // Se você realmente precisar do Hash para segurança máxima, 
-            // este é o hash exato de RachelRPG:
-            const targetHash = "7f717833075677053e993683f36081267ef61b0a88746733220f8664654924c5";
+            const correctPass = passwords[selectedAgentName] || "RachelRPG";
 
-            // Gerando hash do que o usuário digitou
-            const msgBuffer = new TextEncoder().encode(inputPass);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-            // Verificação
-            if (hashHex === targetHash || inputPass === masterPass) {
+            if (inputPass === correctPass && isNotVillain) {
                 sessionStorage.setItem('sdn_auth', 'true');
+                sessionStorage.setItem('active_user', selectedAgentName);
+                
+                // Feedback de sucesso antes de redirecionar
+                document.body.style.opacity = "0.5";
                 window.location.href = "missions.html";
             } else {
                 errorMsg.classList.remove('hidden');
-                // Pequeno efeito de tremor no erro
+                if (!isNotVillain) {
+                    errorMsg.innerText = "ALERTA: PROTOCOLO DA SDN EXIGE CONFIRMAÇÃO DE ÍNDOLE (MARQUE A CAIXA).";
+                } else {
+                    errorMsg.innerText = "ACESSO NEGADO: CHAVE DE SEGURANÇA INCORRETA.";
+                }
+                
                 errorMsg.classList.add('animate-bounce');
                 setTimeout(() => errorMsg.classList.remove('animate-bounce'), 500);
             }
         }
 
-        // Permitir apertar "Enter" para logar
-        document.getElementById('pass').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                handleLogin();
-            }
+        document.getElementById('pass').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
         });
+
+        // Inicializa
+        loadAgentsForLogin();
     </script>
 </body>
 </html>

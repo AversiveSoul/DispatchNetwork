@@ -105,6 +105,8 @@
         const [activeId, setActiveId] = useState(null);
         const [loading, setLoading] = useState(true);
         const [status, setStatus] = useState("SECURE_LINK");
+        // Estado para controlar se mostra o GRID ou o PERFIL
+        const [showProfile, setShowProfile] = useState(false);
 
         const loadAgents = async () => {
           setLoading(true);
@@ -113,7 +115,15 @@
             const response = await fetch(`./agentes.json?v=${timestamp}`);
             const data = await response.json();
             setSheets(data);
-            if (data.length > 0) setActiveId(data[0].id);
+            
+            // MINI AJUSTE: Verifica se existe um ID na URL ao carregar
+            const params = new URLSearchParams(window.location.search);
+            const urlId = params.get('id');
+            if (urlId) {
+              setActiveId(Number(urlId));
+              setShowProfile(true);
+            }
+
             setStatus("ENCRYPTED_ACCESS");
           } catch (err) {
             setStatus("LINK_ERROR");
@@ -124,7 +134,7 @@
 
         useEffect(() => { loadAgents(); }, []);
 
-        const activeSheet = sheets.find((s) => s.id === activeId) || (sheets[0] || {});
+        const activeSheet = sheets.find((s) => s.id === activeId) || {};
 
         if (loading) {
           return (
@@ -141,153 +151,192 @@
             <header className="bg-[#0d1413] text-white p-5 shadow-2xl border-b border-[#46fa5b]/30">
               <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex gap-4 items-center">
-  <a href="vilains.html" className="bg-red-900/20 border border-red-600/50 text-red-500 px-4 py-2 rounded text-[10px] font-bold hover:bg-red-600 hover:text-white transition-all tracking-widest">
-    Registro de Vilões
-  </a>
+                  <a href="vilains.html" className="bg-red-900/20 border border-red-600/50 text-red-500 px-4 py-2 rounded text-[10px] font-bold hover:bg-red-600 hover:text-white transition-all tracking-widest">
+                    Registro de Vilões
+                  </a>
 
-  <a href="missions.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
-    TERMINAL DE MISSÕES
-  </a>
+                  <a href="missions.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
+                    TERMINAL DE MISSÕES
+                  </a>
 
-  <a href="funcionarios.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
-    Registro de Funcionários
-  </a>
+                  <a href="funcionarios.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
+                    Registro de Funcionários
+                  </a>
 
-  <select
-    className="bg-black border border-[#46fa5b]/50 rounded px-4 py-2 text-sm outline-none text-[#46fa5b] font-mono-tactical cursor-pointer"
-    value={activeId || ""}
-    onChange={(e) => setActiveId(Number(e.target.value))}
-  >
-    {sheets.map((s) => (
-      <option key={s.id} value={s.id}>
-        AGENTE: {s.heroName.toUpperCase()}
-      </option>
-    ))}
-  </select>
-</div>
+                  {/* Botão para voltar à lista quando estiver no perfil */}
+                  {showProfile && (
+                    <button 
+                      onClick={() => setShowProfile(false)}
+                      className="bg-[#46fa5b]/10 border border-[#46fa5b]/50 text-[#46fa5b] px-4 py-2 rounded text-[10px] font-bold hover:bg-[#46fa5b] hover:text-black transition-all"
+                    >
+                      VOLTAR A TELA COM TODOS OS AGENTES
+                    </button>
+                  )}
+
+                  <select
+                    className="bg-black border border-[#46fa5b]/50 rounded px-4 py-2 text-sm outline-none text-[#46fa5b] font-mono-tactical cursor-pointer"
+                    value={activeId || ""}
+                    onChange={(e) => {
+                      setActiveId(Number(e.target.value));
+                      setShowProfile(true);
+                    }}
+                  >
+                    <option value="" disabled>SELECIONE UM AGENTE</option>
+                    {sheets.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        AGENTE: {s.heroName.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </header>
 
-            <main className="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+            <main className="max-w-6xl mx-auto p-4 mt-6">
               
-              {/* COLUNA ESQUERDA: PERFIL E ATRIBUTOS */}
-              <div className="lg:col-span-5 space-y-6">
-                <section className="paper-card p-6 border-l-4 border-l-[#46fa5b]">
-                  <div className="flex gap-6">
-                    <div className="w-2/5">
-                      <div className="aspect-[3/4] bg-black rounded border border-[#46fa5b]/30 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+              {!showProfile ? (
+                /* TELA DE QUADRADINHOS (GRID) */
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {sheets.map((agent) => (
+                    <div 
+                      key={agent.id}
+                      onClick={() => { setActiveId(agent.id); setShowProfile(true); }}
+                      className="paper-card p-4 cursor-pointer hover:border-[#46fa5b] transition-all group"
+                    >
+                      <div className="text-[10px] font-mono-tactical text-[#46fa5b]/40 mb-2 uppercase tracking-tighter">ID: {agent.id}</div>
+                      <div className="aspect-[3/4] bg-black rounded border border-[#46fa5b]/20 overflow-hidden mb-3">
                         <img
-                          src={`./FotosDosAgentes/${activeSheet.portraitFilename}`}
-                          className="w-full h-full object-cover transition-all duration-500"
+                          src={`./FotosDosAgentes/${agent.portraitFilename}`}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           onError={(e) => { e.target.src = "https://via.placeholder.com/150?text=NO_IMAGE"; }}
                         />
                       </div>
-                    </div>
-                    <div className="flex-1 space-y-4">
-                      <div>
-                        <label className="text-[10px] font-black text-[#46fa5b] opacity-40 uppercase tracking-[0.2em] block mb-1">Codinome</label>
-                        <div className="text-2xl font-display font-black text-[#46fa5b] tracking-tight">{activeSheet.heroName}</div>
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-black text-[#46fa5b] opacity-40 uppercase tracking-[0.2em] block mb-1">Identidade Civil</label>
-                        <div className="text-sm font-mono-tactical text-slate-300 border-b border-white/10 pb-1">{activeSheet.ageProf || "NÃO CONSTA"}</div>
+                      <div className="text-center font-display font-bold text-[#46fa5b] uppercase tracking-widest text-sm">
+                        {agent.heroName}
                       </div>
                     </div>
-                  </div>
-                </section>
-
-                {/* REPUTAÇÃO BLOQUEADA */}
-                <section className="paper-card p-5 font-mono-tactical bg-gradient-to-b from-[#121c1b] to-black">
-                  <h2 className="text-[#46fa5b] font-bold text-xs uppercase mb-5 tracking-widest flex items-center gap-2">
-                    <span className="w-2 h-2 bg-[#46fa5b] animate-pulse"></span> NÍVEIS DE REPUTAÇÃO
-                  </h2>
-                  <div className="space-y-4">
-                    {[
-                      { label: "Confiança da SDN", val: activeSheet.repSdn, color: "accent-[#46fa5b]" },
-                      { label: "Status na Mídia", val: activeSheet.repMedia, color: "accent-blue-500" },
-                      { label: "Apoio Civil", val: activeSheet.repCivis, color: "accent-orange-500" }
-                    ].map((rep, idx) => (
-                      <div key={idx}>
-                        <label className="text-[10px] text-slate-400 uppercase flex justify-between mb-1">
-                          {rep.label} <span className="text-[#46fa5b]">{rep.val}%</span>
-                        </label>
-                        <input type="range" className={`w-full ${rep.color} cursor-not-allowed opacity-70`} value={rep.val} disabled />
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* ATRIBUTOS BLOQUEADOS */}
-                <section className="paper-card p-5">
-                  <h2 className="text-[#46fa5b] font-bold text-xs uppercase mb-4 tracking-widest font-mono-tactical border-b border-[#46fa5b]/10 pb-2">
-                    ATRIBUTOS TÁTICOS
-                  </h2>
-                  <div className="grid grid-cols-5 gap-3">
-                    {[
-                      { n: "Combate", l: "Combate" },
-                      { n: "Inteligencia", l: "Inteligencia" },
-                      { n: "Carisma", l: "Carisma" },
-                      { n: "Mobilidade", l: "Mobilidade" },
-                      { n: "Vigor", l: "Vigor" },
-                    ].map((attr) => (
-                      <div key={attr.n} className="text-center">
-                        <div className="stat-box text-lg font-black font-mono-tactical">
-                          {activeSheet[`attr${attr.n}`] || 0}
+                  ))}
+                </div>
+              ) : (
+                /* TELA DE PERFIL (CÓDIGO ORIGINAL) */
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  {/* COLUNA ESQUERDA: PERFIL E ATRIBUTOS */}
+                  <div className="lg:col-span-5 space-y-6">
+                    <section className="paper-card p-6 border-l-4 border-l-[#46fa5b]">
+                      <div className="flex gap-6">
+                        <div className="w-2/5">
+                          <div className="aspect-[3/4] bg-black rounded border border-[#46fa5b]/30 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                            <img
+                              src={`./FotosDosAgentes/${activeSheet.portraitFilename}`}
+                              className="w-full h-full object-cover transition-all duration-500"
+                              onError={(e) => { e.target.src = "https://via.placeholder.com/150?text=NO_IMAGE"; }}
+                            />
+                          </div>
                         </div>
-                        <span className="text-[8px] font-black uppercase text-slate-500 mt-2 block font-mono-tactical">
-                          {attr.l}
+                        <div className="flex-1 space-y-4">
+                          <div>
+                            <label className="text-[10px] font-black text-[#46fa5b] opacity-40 uppercase tracking-[0.2em] block mb-1">Codinome</label>
+                            <div className="text-2xl font-display font-black text-[#46fa5b] tracking-tight">{activeSheet.heroName}</div>
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-black text-[#46fa5b] opacity-40 uppercase tracking-[0.2em] block mb-1">Identidade Civil</label>
+                            <div className="text-sm font-mono-tactical text-slate-300 border-b border-white/10 pb-1">{activeSheet.ageProf || "NÃO CONSTA"}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="paper-card p-5 font-mono-tactical bg-gradient-to-b from-[#121c1b] to-black">
+                      <h2 className="text-[#46fa5b] font-bold text-xs uppercase mb-5 tracking-widest flex items-center gap-2">
+                        <span className="w-2 h-2 bg-[#46fa5b] animate-pulse"></span> NÍVEIS DE REPUTAÇÃO
+                      </h2>
+                      <div className="space-y-4">
+                        {[
+                          { label: "Confiança da SDN", val: activeSheet.repSdn, color: "accent-[#46fa5b]" },
+                          { label: "Status na Mídia", val: activeSheet.repMedia, color: "accent-blue-500" },
+                          { label: "Apoio Civil", val: activeSheet.repCivis, color: "accent-orange-500" }
+                        ].map((rep, idx) => (
+                          <div key={idx}>
+                            <label className="text-[10px] text-slate-400 uppercase flex justify-between mb-1">
+                              {rep.label} <span className="text-[#46fa5b]">{rep.val}%</span>
+                            </label>
+                            <input type="range" className={`w-full ${rep.color} cursor-not-allowed opacity-70`} value={rep.val} disabled />
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    <section className="paper-card p-5">
+                      <h2 className="text-[#46fa5b] font-bold text-xs uppercase mb-4 tracking-widest font-mono-tactical border-b border-[#46fa5b]/10 pb-2">
+                        ATRIBUTOS TÁTICOS
+                      </h2>
+                      <div className="grid grid-cols-5 gap-3">
+                        {[
+                          { n: "Combate", l: "Combate" },
+                          { n: "Inteligencia", l: "Inteligencia" },
+                          { n: "Carisma", l: "Carisma" },
+                          { n: "Mobilidade", l: "Mobilidade" },
+                          { n: "Vigor", l: "Vigor" },
+                        ].map((attr) => (
+                          <div key={attr.n} className="text-center">
+                            <div className="stat-box text-lg font-black font-mono-tactical">
+                              {activeSheet[`attr${attr.n}`] || 0}
+                            </div>
+                            <span className="text-[8px] font-black uppercase text-slate-500 mt-2 block font-mono-tactical">
+                              {attr.l}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                  </div>
+
+                  <div className="lg:col-span-7 flex flex-col">
+                    <section className="paper-card p-6 flex-1 flex flex-col border-t-4 border-t-white/10">
+                      <h2 className="font-bold text-[#46fa5b] uppercase text-xs tracking-widest mb-4 flex items-center gap-2 font-mono-tactical">
+                        📁 Dados Do Agente
+                      </h2>
+                      <textarea
+                        className="w-full flex-1 bg-black/40 border border-white/5 outline-none font-mono-tactical text-xs leading-relaxed text-[#46fa5b]/70 resize-none custom-scrollbar p-4 rounded cursor-not-allowed"
+                        value={activeSheet.activeOps || "NENHUM LOG DISPONÍVEL NO MOMENTO."}
+                        readOnly
+                      />
+
+                      <div className="grid grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/5">
+                        <div>
+                          <h3 className="text-[10px] font-black text-[#46fa5b] uppercase mb-2 font-mono-tactical tracking-widest">
+                            Capacidades Especiais
+                          </h3>
+                          <textarea
+                            className="input-readonly text-xs h-32 resize-none leading-relaxed opacity-80"
+                            value={activeSheet.powers || ""}
+                            readOnly
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-[10px] font-black text-red-500 uppercase mb-2 font-mono-tactical tracking-widest">
+                            Pontos Críticos
+                          </h3>
+                          <textarea
+                            className="input-readonly !text-red-400 !border-red-900/30 text-xs h-32 resize-none leading-relaxed opacity-80"
+                            value={activeSheet.weaknesses || ""}
+                            readOnly
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="mt-8 flex justify-between items-center opacity-30">
+                        <span className="text-[9px] font-mono-tactical text-slate-500">
+                          FILE_ID: {activeSheet.id} // SECURE_ACCESS_GRANTED
+                        </span>
+                        <span className="text-[9px] font-mono-tactical text-slate-500 uppercase">
+                          Copyright © SDN Agency 2026
                         </span>
                       </div>
-                    ))}
+                    </section>
                   </div>
-                </section>
-              </div>
-
-              {/* COLUNA DIREITA: LOGS E INFO */}
-              <div className="lg:col-span-7 flex flex-col">
-                <section className="paper-card p-6 flex-1 flex flex-col border-t-4 border-t-white/10">
-                  <h2 className="font-bold text-[#46fa5b] uppercase text-xs tracking-widest mb-4 flex items-center gap-2 font-mono-tactical">
-                    📁 Dados Do Agente
-                  </h2>
-                  <textarea
-                    className="w-full flex-1 bg-black/40 border border-white/5 outline-none font-mono-tactical text-xs leading-relaxed text-[#46fa5b]/70 resize-none custom-scrollbar p-4 rounded cursor-not-allowed"
-                    value={activeSheet.activeOps || "NENHUM LOG DISPONÍVEL NO MOMENTO."}
-                    readOnly
-                  />
-
-                  <div className="grid grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/5">
-                    <div>
-                      <h3 className="text-[10px] font-black text-[#46fa5b] uppercase mb-2 font-mono-tactical tracking-widest">
-                        Capacidades Especiais
-                      </h3>
-                      <textarea
-                        className="input-readonly text-xs h-32 resize-none leading-relaxed opacity-80"
-                        value={activeSheet.powers || ""}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-[10px] font-black text-red-500 uppercase mb-2 font-mono-tactical tracking-widest">
-                        Pontos Críticos
-                      </h3>
-                      <textarea
-                        className="input-readonly !text-red-400 !border-red-900/30 text-xs h-32 resize-none leading-relaxed opacity-80"
-                        value={activeSheet.weaknesses || ""}
-                        readOnly
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8 flex justify-between items-center opacity-30">
-                    <span className="text-[9px] font-mono-tactical text-slate-500">
-                      FILE_ID: {activeSheet.id} // SECURE_ACCESS_GRANTED
-                    </span>
-                    <span className="text-[9px] font-mono-tactical text-slate-500 uppercase">
-                      Copyright © SDN Agency 2026
-                    </span>
-                  </div>
-                </section>
-              </div>
+                </div>
+              )}
             </main>
           </div>
         );
