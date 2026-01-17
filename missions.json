@@ -1,15 +1,5 @@
 [
   {
-    "operationId": "OP-76-Gatinho",
-    "threatLevel": "🟢 Baixo",
-    "objective": "Salvar um gatinho de uma arvore. Habilidades recomendadas, Carisma e Agilidade.",
-    "reward": "",
-    "timeWindow": "",
-    "id": 1768407375544,
-    "x": 10.604453870625663,
-    "y": 18.55072463768116
-  },
-  {
     "operationId": "OP-431-Picle",
     "threatLevel": "🟢 Baixo",
     "objective": "Uma senhora quer ajuda para abrir um pote de Picles, Habilidades recomendadas, força física e velocidade",
@@ -58,5 +48,95 @@
     "id": 1768407888067,
     "x": 31.760339342523856,
     "y": 65.07246376811594
+  },
+  {
+    "operationId": "OP-331-Gatinho",
+    "threatLevel": "🟢 Baixo",
+    "objective": "Salvar um gatinho de uma arvore. Habilidades recomendadas, Carisma e Agilidade.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768677508287,
+    "x": 62.67232237539767,
+    "y": 33.965014577259474
+  },
+  {
+    "operationId": "OP-913-Gelou",
+    "threatLevel": "🔴 Alto",
+    "objective": "o vilão Cold Ice está soltando pinguins de um zoológico com a ajuda do Portal Guy, e mandando eles direto para sua base no polo norte, mas pinguins vivem apenas no sul, SALVEM OS PINGUINS. Recomendamos um casaco, Carisma e Vigor.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768677803227,
+    "x": 54.241781548250266,
+    "y": 65.1603498542274
+  },
+  {
+    "operationId": "OP-577-Soco-Surpresa",
+    "threatLevel": "🟢 Baixo",
+    "objective": "O vilão SpeedPunch está ameaçando dar um soco em alguém, ele deixou a prisão não faz nem 2 horas, vão lá tomar um soco dele no lugar dos civis e prender ele, a parte de levar soco é piada, só detenham ele. Recomendamos Vigor e Combate. ",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768677953511,
+    "x": 67.3913043478261,
+    "y": 52.04081632653062
+  },
+  {
+    "operationId": "OP-643-Sorvete-Derretido",
+    "threatLevel": "🔴 Alto",
+    "objective": "está tendo muitos casos de comida hoje, não sei porque, o Super Estrelado quer um sorvete e me pediu para por isso como alta prioridade.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678048487,
+    "x": 46.87168610816543,
+    "y": 48.39650145772595
+  },
+  {
+    "operationId": "OP-500-Uma-Missão-a-Altura",
+    "threatLevel": "🔴 Alto",
+    "objective": "um jatinho particular foi roubado e o dono quer de volta, interceptem o alvo, entrem no jato, e recuperem o controle. Algum de você voa? meio que é uma habilidade necessária, velocidade e combate recomendados.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678168851,
+    "x": 57.15800636267232,
+    "y": 13.994169096209912
+  },
+  {
+    "operationId": "OP-771-Gang-do-Scoobby",
+    "threatLevel": "🟡 Médio",
+    "objective": "Pessoas vestidas de fantasma, ou fantasmas de verdade estão assombrando a região, investiguem se é só uma pegadinha ou algo sobrenatural, habilidades recomendadas Inteligência e Carisma",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678269752,
+    "x": 45.91728525980912,
+    "y": 80.75801749271136
+  },
+  {
+    "operationId": "OP-32-Incentivo-Pequeno",
+    "threatLevel": "🟢 Baixo",
+    "objective": "As crianças são o nosso futuro, vão até o colégio marcado e deem um discurso motivacional para nossas crianças de como é bom ser um adulto assalariado, habilidades recomendadas Carisma.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678353985,
+    "x": 62.990455991516434,
+    "y": 71.865889212828
+  },
+  {
+    "operationId": "OP-221-Pioridade-Maxima",
+    "threatLevel": "🔴 Alto",
+    "objective": "Um Político foi sequestrado, tragam ele de volta, vivo, depois prendam ele e façam vista grossa pros sequestradores, sim, prendam ele, ele é corrupto e seria preso hoje a tarde, mas aparentemente sequestraram ele porque varias pessoas ficaram não contentes com o fato dele só ser preso e querem justiça com as próprias mãos, só são civis revoltados, apenas acalmem eles e tragam o político. Recomendamos, Carisma e Velocidade.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678636506,
+    "x": 68.66383881230117,
+    "y": 16.472303206997086
+  },
+  {
+    "operationId": "OP-831-Piada-De-Mal-Gosto",
+    "threatLevel": "🟡 Médio",
+    "objective": "O vilão Palhacídio, está causando risadas na população seu poder meta humano de literalmente causar risadas faz todas suas atitudes e falas serem extremamente engraçadas, o problema é que alguns civis podem morrer de tanto rir, convençam ele a parar de contar piadas por hoje. Habilidades recomendadas Vigor e Carisma.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768678838828,
+    "x": 54.135737009544,
+    "y": 36.44314868804665
   }
 ]
