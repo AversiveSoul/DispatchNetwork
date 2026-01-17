@@ -80,7 +80,7 @@
     "portraitFilename": "8.jpg"
   },
    {
-    "id": 8,
+    "id": 9,
     "vilainName": "Sixerin",
     "powers": "Não pode ser machucado a não ser que se imagine sendo machucado, se auto denonima o rival do Severin, legal que ninguem sabia desse cara até anunciarem que o Severin iria entrar na SDN.",
     "weaknesses": "Coisas subconscientes como um soco na direção dele são bem efetivas, poderes e magia nem tanto, resumindo dá para descer ele no soco, o foda é que até os socos de alguem super forte só são socos normais nele porque o subsconsciente dele não consegue imaginar o soco matando ele, armas de fogo são bem efetivas tambem, mas preferimos deixar como ultimo recurso.",
@@ -88,5 +88,25 @@
     "fearMedia": 90,
     "fearCivis": 97,
     "portraitFilename": "9.jpg"
+  },
+  {
+    "id": 10,
+    "vilainName": "Portal Guy",
+    "powers": "Normalmente trabalha para outros vilões em troca de dinheiro, ele é só um cara normal com uma tecnologia de portais foda.",
+    "weaknesses": "Não tem poderes, é só um cara normal, se pegar ele desprevenido dá para derrubar ele fácil.",
+    "fearSdn": 20,
+    "fearMedia": 5,
+    "fearCivis": 10,
+    "portraitFilename": "10.jpg"
+  },
+  {
+    "id": 11,
+    "vilainName": "Palhacídio",
+    "powers": "Esse cara conta as melhores piadas do mundo, mas fica facil quando se tem um poder que faz os outros rirem.",
+    "weaknesses": "Só não ouvir ele falando, ou tapar bem os ouvidos, mas ele nunca matou ninguem, nem cometeu nenhum crime grave, ele só se empolga as vezes com as piadas e precisa de uma intervenção, normalmente conversar com ele faz ele parar, e nunca conseguimos prender ele por causa que piadas não são crime, e ele nunca contou uma que incitasse odio, ou ferisse os direitos humanos, ele é só um humano normal, mas cuidado para não cair no riso é dificil parar depois.",
+    "fearSdn": 10,
+    "fearMedia": 20,
+    "fearCivis": 22,
+    "portraitFilename": "11.jpg"
   }
 ]
