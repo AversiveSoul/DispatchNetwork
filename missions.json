@@ -1,6 +1,6 @@
 [
   {
-    "operationId": "OP-431-Picle",
+    "operationId": "OP-431-Picles",
     "threatLevel": "🟢 Baixo",
     "objective": "Uma senhora quer ajuda para abrir um pote de Picles, Habilidades recomendadas, força física e velocidade",
     "reward": "",
@@ -32,7 +32,7 @@
   {
     "operationId": "OP-848-Crise-Italiana",
     "threatLevel": "🔴 Alto",
-    "objective": "aparentemente um supervilão com criação italiana está bravo porque partiram um espaguete no meio, relatos indicam morte do cozinheiro e 5 reféns, objetivo da missão prioridade resgatar os reféns depois lidar com o vilão, Velocidade e Carisma Recomendados. ",
+    "objective": "Aparentemente um supervilão com criação italiana está bravo porque partiram um espaguete no meio, acreditamos que o vilão seja o Bombardiere Giuseppe, relatos indicam morte do cozinheiro e 5 reféns, objetivo da missão prioridade resgatar os reféns depois lidar com o vilão, Velocidade e Carisma Recomendados. ",
     "reward": "",
     "timeWindow": "",
     "id": 1768407757050,
@@ -62,7 +62,7 @@
   {
     "operationId": "OP-913-Gelou",
     "threatLevel": "🔴 Alto",
-    "objective": "o vilão Cold Ice está soltando pinguins de um zoológico com a ajuda do Portal Guy, e mandando eles direto para sua base no polo norte, mas pinguins vivem apenas no sul, SALVEM OS PINGUINS. Recomendamos um casaco, Carisma e Vigor.",
+    "objective": "O vilão Cold Ice está soltando pinguins de um zoológico com a ajuda do Portal Guy, e mandando eles direto para sua base no polo norte, mas pinguins vivem apenas no sul, SALVEM OS PINGUINS. Recomendamos um casaco, Carisma e Vigor.",
     "reward": "",
     "timeWindow": "",
     "id": 1768677803227,
@@ -82,7 +82,7 @@
   {
     "operationId": "OP-643-Sorvete-Derretido",
     "threatLevel": "🔴 Alto",
-    "objective": "está tendo muitos casos de comida hoje, não sei porque, o Super Estrelado quer um sorvete e me pediu para por isso como alta prioridade.",
+    "objective": "Está tendo muitos casos de comida hoje, não sei porque, o Super Estrelado quer um sorvete e me pediu para por isso como alta prioridade.",
     "reward": "",
     "timeWindow": "",
     "id": 1768678048487,
@@ -122,7 +122,7 @@
   {
     "operationId": "OP-221-Pioridade-Maxima",
     "threatLevel": "🔴 Alto",
-    "objective": "Um Político foi sequestrado, tragam ele de volta, vivo, depois prendam ele e façam vista grossa pros sequestradores, sim, prendam ele, ele é corrupto e seria preso hoje a tarde, mas aparentemente sequestraram ele porque varias pessoas ficaram não contentes com o fato dele só ser preso e querem justiça com as próprias mãos, só são civis revoltados, apenas acalmem eles e tragam o político. Recomendamos, Carisma e Velocidade.",
+    "objective": "Um Político foi sequestrado, O Milton Ownnaro, tragam ele de volta, vivo, depois prendam ele e façam vista grossa pros sequestradores, sim, prendam ele, ele é corrupto e seria preso hoje a tarde, mas aparentemente sequestraram ele porque varias pessoas ficaram não muito contentes com o fato dele só ser preso e querem justiça com as próprias mãos, mas só são civis revoltados, apenas acalmem eles e tragam o político. Recomendamos, Carisma e Velocidade.",
     "reward": "",
     "timeWindow": "",
     "id": 1768678636506,
