@@ -8,95 +8,89 @@
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --paper: #f4f1ea; /* Cor de papel envelhecido */
-            --ink: #1a1a1a;   /* Cor da tinta preta */
-            --sdn-blue: #2563eb;
+            --paper: #f4f1ea;
+            --ink: #1a1a1a;
         }
 
         body {
-            background-color: #222; /* Fundo de fora do jornal */
+            background-color: #222;
             color: var(--ink);
             font-family: 'EB Garamond', serif;
             line-height: 1.2;
         }
 
-        /* EFEITO DE LINHAS DE TV (SCANLINES) */
         .scanlines {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(
-                rgba(0, 0, 0, 0) 50%, 
-                rgba(0, 0, 0, 0.05) 50%
-            );
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
             z-index: 999;
             background-size: 100% 4px;
             pointer-events: none;
             opacity: 0.5;
         }
 
-        /* CONTAINER DO JORNAL (O PAPEL) */
         .newspaper-page {
             background-color: var(--paper);
             max-width: 900px;
-            margin: 40px auto;
-            padding: 40px;
+            margin: 15px auto;
+            padding: 20px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5), 5px 5px 0px #333;
             border: 1px solid #d1cfc8;
-            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .newspaper-page { margin: 40px auto; padding: 40px; }
         }
 
         .newspaper-font { font-family: 'Playfair Display', serif; }
         .mono-font { font-family: 'Share+Tech+Mono', monospace; }
         .typewriter { font-family: 'Special Elite', cursive; }
 
-        /* IMAGENS EM PRETO E BRANCO */
         .jornal-img {
             filter: grayscale(1) contrast(1.1);
             border: 1px solid var(--ink);
-            transition: filter 0.3s ease;
         }
-        .jornal-img:hover { filter: grayscale(0.5); }
-
+        
+        /* LINHAS DO CABEÇALHO */
         .header-border {
-            border-top: 4px solid var(--ink);
+            border-top: 3px solid var(--ink);
             border-bottom: 1px solid var(--ink);
         }
 
-        /* COLUNAS DE TEXTO ESTILO JORNAL */
         .news-content {
-            column-count: 2;
-            column-gap: 30px;
-            column-rule: 1px solid #ddd;
+            column-count: 1;
             text-align: justify;
         }
 
-        @media (max-width: 768px) {
-            .news-content { column-count: 1; }
-            .newspaper-page { margin: 10px; padding: 20px; }
+        @media (min-width: 1024px) {
+            .news-content { column-count: 2; column-gap: 30px; }
         }
 
         .dropcap {
             float: left;
             font-family: 'Playfair Display', serif;
-            font-size: 75px;
-            line-height: 60px;
-            padding-top: 4px;
+            font-size: 60px;
+            line-height: 50px;
             padding-right: 8px;
             font-weight: bold;
         }
+
+        /* Nav horizontal scroll fix */
+        nav { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        nav::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
     <div class="scanlines"></div>
 
-    <nav class="sticky top-0 z-50 bg-black p-3 flex justify-center gap-4 border-b border-white/20">
-        <a href="funcionarios.html" class="mono-font text-white text-[10px] border border-white/30 px-3 py-1 hover:bg-white hover:text-black transition">Registro De Funcionarios</a>
-        <a href="SDNAgentNetwork.html" class="mono-font text-blue-400 text-[10px] border border-blue-400/30 px-3 py-1 hover:bg-blue-400 hover:text-white transition">Registro De Agentes</a>
-        <a href="vilains.html" class="mono-font text-red-500 text-[10px] border border-red-500/30 px-3 py-1 hover:bg-red-500 hover:text-white transition">Registro de Vilões</a>
-        <a href="missions.html" class="mono-font text-yellow-500 text-[10px] border border-yellow-500/30 px-3 py-1 hover:bg-yellow-500 hover:text-white transition">Terminal De Missões</a>
+    <nav class="sticky top-0 z-50 bg-black p-3 flex gap-4 border-b border-white/20 px-4">
+        <a href="funcionarios.html" class="mono-font text-white text-[10px] border border-white/30 px-3 py-1 flex-shrink-0">Registro De Funcionarios</a>
+        <a href="SDNAgentNetwork.html" class="mono-font text-blue-400 text-[10px] border border-blue-400/30 px-3 py-1 flex-shrink-0">Registro De Agentes</a>
+        <a href="vilains.html" class="mono-font text-red-500 text-[10px] border border-red-500/30 px-3 py-1 flex-shrink-0">Registro de Vilões</a>
+        <a href="missions.html" class="mono-font text-yellow-500 text-[10px] border border-yellow-500/30 px-3 py-1 flex-shrink-0">Terminal De Missões</a>
     </nav>
 
-    <main id="news-feed">
+    <main id="news-feed" class="p-2">
         <div class="text-center py-20 text-white mono-font animate-pulse">
             [ CARREGANDO ARQUIVOS... ]
         </div>
@@ -115,35 +109,36 @@
                 newsList.forEach(item => {
                     const article = `
                         <article class="newspaper-page">
-                            <div class="text-center mb-8">
-                                <h1 class="newspaper-font text-6xl font-black uppercase tracking-tighter">${item.nomeDoJornal}</h1>
-                                <div class="header-border flex justify-between py-1 px-2 mono-font text-xs font-bold mt-2">
-                                    <span>VOL. XLVI ... No. 12.046</span>
-                                    <span class="uppercase italic">Arquivo Digital</span>
-                                    <span>${item.data}</span>
+                            <div class="text-center mb-6">
+                                <h1 class="newspaper-font text-3xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-2">
+                                    ${item.nomeDoJornal}
+                                </h1>
+                                <div class="header-border grid grid-cols-2 md:flex md:justify-between py-1 px-1 mono-font text-[8px] md:text-xs font-bold uppercase">
+                                    <span class="text-left md:text-center">VOL. XLVI ... No. 12.046</span>
+                                    <span class="hidden md:block italic">Arquivo Digital SDN</span>
+                                    <span class="text-right">${item.data}</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                                <div class="lg:col-span-1 border-r border-black/10 pr-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
+                                <div class="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-black/10 pb-6 lg:pb-0 lg:pr-4">
                                     <h3 class="typewriter text-lg font-bold border-b-2 border-black mb-2 uppercase">Extra!</h3>
                                     <p class="font-bold text-base leading-tight mb-2">${item.titulodaMiniNoticia}</p>
-                                    <img src="./JornalPictures/${item.fotoMiniNoticia}" class="jornal-img w-full mb-2" onerror="this.src='https://via.placeholder.com/150'">
-                                    
+                                    <img src="./JornalPictures/${item.fotoMiniNoticia}" class="jornal-img w-full mb-3" onerror="this.src='https://via.placeholder.com/150'">
                                     <p class="text-[15px] leading-snug text-gray-900 mb-4 font-medium">${item.miniNoticia}</p>
                                     
-                                    <div class="bg-black/10 p-3 border border-black/20 mt-4">
+                                    <div class="bg-black/10 p-3 border border-black/20">
                                         <p class="mono-font text-[10px] uppercase font-bold text-red-700 mb-1">Aviso do Especialista:</p>
                                         <p class="text-[13px] leading-tight font-bold italic">"${item.opiniaoDeEspecialista}"</p>
                                     </div>
                                 </div>
 
                                 <div class="lg:col-span-3">
-                                    <h2 class="newspaper-font text-4xl font-black mb-4 leading-none uppercase">${item.tituloNoticia}</h2>
+                                    <h2 class="newspaper-font text-2xl md:text-4xl font-black mb-4 leading-tight uppercase">${item.tituloNoticia}</h2>
                                     
                                     <div class="mb-6">
-                                        <img src="./JornalPictures/${item.fotoPrincipal}" class="jornal-img w-full h-80 object-cover" onerror="this.src='https://via.placeholder.com/600x400'">
-                                        <p class="text-[10px] italic mt-1 border-b border-black/20 pb-1">Imagem de destaque, pode ter sido modificada para fins de atratividade pública.</p>
+                                        <img src="./JornalPictures/${item.fotoPrincipal}" class="jornal-img w-full h-56 md:h-80 object-cover" onerror="this.src='https://via.placeholder.com/600x400'">
+                                        <p class="text-[9px] italic mt-1 border-b border-black/20 pb-1">Documento visual oficial - Sistema SDN 2046.</p>
                                     </div>
 
                                     <div class="news-content text-[15px] leading-normal">
@@ -153,7 +148,7 @@
 
                                     <div class="mt-8 pt-4 border-t-4 border-double border-black">
                                         <p class="mono-font text-xs font-bold uppercase mb-2">● Opinião Pública:</p>
-                                        <p class="text-lg italic bg-black/5 p-5 leading-relaxed font-semibold">"${item.opiniaoPublica}"</p>
+                                        <p class="text-base md:text-lg italic bg-black/5 p-4 leading-relaxed font-semibold">"${item.opiniaoPublica}"</p>
                                     </div>
                                 </div>
                             </div>
