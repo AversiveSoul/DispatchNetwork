@@ -53,7 +53,7 @@
     "id": 6,
     "vilainName": "Deathwalker",
     "powers": "Não é bem uma pessoa é uma mascara que controla uma pessoa, e sempre que alguem é possuido por essa mascara a pessoa vira um tipo de entidade demoniaca auto intitulada DeathWalker ai ele fala de vingança e que tá querendo achar um tal de Ajax, e fica fazendo mó caos desnecessario, espero que encontrem essa mascara logo antes que alguem resolva vestir.",
-    "weaknesses": "Perde controle rapidamente e não consegue atuar longe dos corpos animados.",
+    "weaknesses": "Tirou a mascara da vitima ele perde o controle.",
     "fearSdn": 96,
     "fearMedia": 98,
     "fearCivis": 100,
@@ -108,5 +108,25 @@
     "fearMedia": 20,
     "fearCivis": 22,
     "portraitFilename": "11.jpg"
+  },
+  {
+    "id": 12,
+    "vilainName": "Speed Punch",
+    "powers": "Esse cara consegue acertar um soco tão rápido que o alvo nem percebe, um dos unicos que acertou um golpe no Á Jato até hoje.",
+    "weaknesses": "Tirando a força extra dado a velocidade do soco ele é só um humano normal, então se conseguir desviar do soco, ou pegar ele desprevenido dá para ganhar facil.",
+    "fearSdn": 5,
+    "fearMedia": 30,
+    "fearCivis": 35,
+    "portraitFilename": "12.jpg"
+  },
+  {
+    "id": 13,
+    "vilainName": "Bombardiere Giuseppe",
+    "powers": "Ele é um especialista em bombas, explodiu uma sede da SDN anos atrás, mas atualmente tá fora da cadeia sem criar caos por pelo menos 1 decada.",
+    "weaknesses": "Tirando as bombas dele, que já feriram o Super Estrelado, ele é só um cara normal, só tomem cuidado com as bombas.",
+    "fearSdn": 45,
+    "fearMedia": 42,
+    "fearCivis": 40,
+    "portraitFilename": "13.jpg"
   }
 ]
