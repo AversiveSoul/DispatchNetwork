@@ -90,6 +90,16 @@
     "portraitFilename": "9.jpg"
   },
   {
+    "id": 13,
+    "vilainName": "Bombardiere Giuseppe",
+    "powers": "Especialista em bombas. Explodiu uma sede da SDN anos atrás, mas atualmente está fora da cadeia e sem causar caos há pelo menos uma década.",
+    "weaknesses": "Além das bombas, que já feriram o Super Estrelado, ele é apenas um humano comum. Ainda assim, tomem cuidado com os explosivos.",
+    "fearSdn": 60,
+    "fearMedia": 42,
+    "fearCivis": 60,
+    "portraitFilename": "13.jpg"
+  },
+  {
     "id": 10,
     "vilainName": "Portal Guy",
     "powers": "Normalmente trabalha para outros vilões em troca de dinheiro. É apenas um cara normal com uma tecnologia de portais extremamente avançada.",
@@ -118,15 +128,5 @@
     "fearMedia": 30,
     "fearCivis": 35,
     "portraitFilename": "12.jpg"
-  },
-  {
-    "id": 13,
-    "vilainName": "Bombardiere Giuseppe",
-    "powers": "Especialista em bombas. Explodiu uma sede da SDN anos atrás, mas atualmente está fora da cadeia e sem causar caos há pelo menos uma década.",
-    "weaknesses": "Além das bombas, que já feriram o Super Estrelado, ele é apenas um humano comum. Ainda assim, tomem cuidado com os explosivos.",
-    "fearSdn": 45,
-    "fearMedia": 42,
-    "fearCivis": 40,
-    "portraitFilename": "13.jpg"
   }
 ]
