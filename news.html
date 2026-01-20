@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias Relevantes</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    (function() {
+        const isAuthenticated = sessionStorage.getItem('sdn_auth');
+        if (isAuthenticated !== 'true') {
+            window.location.href = "index.html";
+        }
+    })();
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
