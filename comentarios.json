@@ -1,0 +1,189 @@
+[ 
+    {
+
+    "id_funcionario": 612412,
+
+    "texto": "Alguém sabe se o refeitório está aberto hoje?",
+
+    "resposta1": "não tá.",
+
+    "id_funcionarioResposta1": 223087,
+
+    "resposta2":"está sim :)",
+
+    "id_funcionarioResposta2": 909538,
+
+    "resposta3": "Te odeio Kleber.",
+
+    "id_funcionarioResposta3": 223087,
+
+    "resposta4":"S2",
+
+    "id_funcionarioResposta4": 909538
+
+
+},
+
+    {
+
+    "id_funcionario": 909538,
+
+    "texto": "O NOME DO CARA É SUPER ESTRELADO E ELE NÃO É UMA ESTRELA???",
+
+    "resposta1": "Eu tenho Star no nome e não sou uma estrela.",
+
+    "id_funcionarioResposta1": 223087,
+
+    "resposta2":"Bom argumento.",
+
+    "id_funcionarioResposta2": 909538
+
+},
+
+{
+
+    "id_funcionario": 712334,
+
+    "texto": "Quando vão por o banheiro para não binarios?",
+
+    "resposta1": "XZ meu amor, o banheiro já é neutro.",
+
+    "id_funcionarioResposta1": 111111,
+
+    "resposta2":"TU NEM PRECISA USAR O BANHEIRO!!",
+
+    "id_funcionarioResposta2": 909538,
+
+    "resposta3": "Mas é legal fingir que preciso, me sinto mais humano.",
+
+    "id_funcionarioResposta3": 712334,
+
+    "resposta4":"Kleber, deixa a XZ em paz. Pode usar o banheiro quando quiser 💖",
+
+    "id_funcionarioResposta4": 111111,
+
+    "resposta5":"Desculpa, é que ainda não me acostumei com a porra de um ser que é LITERALMENTE a porra de uma estrela viva andando pela empresa.",
+
+    "id_funcionarioResposta5": 909538,
+
+    "resposta6": "Não sou uma estrela. Na verdade sou uma entidade exótica de natureza não bariónica, constituída predominantemente por plasma solar altamente ionizado, mantido coeso por campos eletromagnéticos autoestáveis e interações de força ainda não descritas pela física do sua civilização.",
+
+    "id_funcionarioResposta6": 712334,
+
+    "resposta7":"Resumindo, não precisa usar o banheiro.",
+
+    "id_funcionarioResposta7": 909538,
+
+    "resposta8":"Kleber!! Já chega.",
+
+    "id_funcionarioResposta8": 111111,
+
+    "resposta9":"Dei Ban de alguns minutos no Kleber, de nada e atualizei a placa holografica do banheiro, tem uma estrela agora.",
+
+    "id_funcionarioResposta9": 254521,
+
+    "resposta10": "Obrigada Camila, mas eu não sou uma estrela...",
+
+    "id_funcionarioResposta10": 712334,
+
+    "resposta11": "Pode não ser literalmente uma, mas você é a estrela da nossa empresa :D",
+
+    "id_funcionarioResposta11": 111111
+},
+
+{
+    "id_funcionario": 389238,
+
+    "texto": "Minha Avó morreu... Preciso ficar no balcão hoje? Queria ir no enterro dela.",
+
+    "resposta1": "Junior nem era para tu ter vindo trabalhar hoje, pode ir sim, eu te cubro.",
+
+    "id_funcionarioResposta1": 111111
+
+},
+
+
+{
+    "id_funcionario": 223087,
+
+    "texto": "Alguém viu meu chapéu de cozinheiro? Acho que deixei no refeitório.",
+
+    "resposta1": "Tá na cozinha, peguei emprestado para fazer uns testes.",
+
+    "id_funcionarioResposta1": 612412,
+
+    "resposta2": "Agora eu tenho um chapéu que também é um ventilador, exatamente o que eu queria...",
+
+    "id_funcionarioResposta2": 223087,
+
+    "resposta3": "De nada.",
+
+    "id_funcionarioResposta3": 612412
+
+},
+
+{
+    "id_funcionario": 512412,
+
+    "texto": "Alguém sabe onde fica o banheiro mais próximo?",
+
+    "resposta1": "No corredor à esquerda, depois da sala de reuniões.",
+
+    "id_funcionarioResposta1": 90014,
+
+    "resposta2":"Obrigada!!",
+
+    "id_funcionarioResposta2": 512412
+
+},
+
+{
+    "id_funcionario": 200222,
+
+    "texto": "Quase terminando um relatório que definitivamente vai render uma bela demissão justa causa para o Kleber.",
+
+    "resposta1": "Olha teu email depois.",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"Acabei de olhar... Eu tava brincando Kleber, tu sabe né? Não to fazendo relatório nenhum... Não precisava levar tão a sério...",
+
+    "id_funcionarioResposta2": 200222,
+
+    "resposta3": "XD",
+
+    "id_funcionarioResposta3": 909538,
+
+    "resposta4": "Paulo cadê o relatório do dia?",
+
+    "id_funcionarioResposta4": 512311,
+
+    "resposta5": "Refazendo... Já entrego...",
+
+    "id_funcionarioResposta5": 200222
+},
+
+{
+    "id_funcionario": 909538,
+
+    "texto": "Adivinha quem implementou uma rede de comunicação interna só para a Staff?",
+
+    "resposta1": "A Camila, ela tá a 1 semana trabalhando nisso.",
+
+    "id_funcionarioResposta1": 111111,
+
+    "resposta2": "Regina eu te adoro, mas as vezes tu estraga o meu barato.",
+
+    "id_funcionarioResposta2": 909538,
+
+    "resposta3": "Já olhou o que tem no teu armário secreto?",
+
+    "id_funcionarioResposta3": 111111,
+
+    "resposta4": "Regina... EU NÃO FAÇO IDEIA DE COMO TU CONSEGUE ESSAS COISAS, MAS EU TE AMO. Pera... como você sabia do armário secreto???",
+
+    "id_funcionarioResposta4": 909538
+}
+
+
+]
