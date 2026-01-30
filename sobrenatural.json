@@ -14,8 +14,8 @@
     "evento": "“Fall“",
     "InformacaoConhecida": "Evento de circunstância desconhecida: pessoas flutuam e caem resultando em morte, sempre em morte, sem sobreviventes. Não parece ser relacionado a uma entidade, mas um evento sobrenatural equivalente a um desastre natural como um terremoto. O problema é identificar a causa e como prever para evitar o mínimo de vítimas.",
     "nivelDePerigo": 98,
-    "imagemAcidente": "fallVitimas.jpg",
-    "portraitFilename": "fall.jpg"
+    "imagemAcidente": "fallvitimas.jpg",
+    "portraitFilename": "Fall.jpg"
   },
     {
     "id": 3,
