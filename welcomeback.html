@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>S.D.N. - PROTOCOLO DE ACESSO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <script>
+        // 1. Trava de Segurança (Executa antes de tudo)
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('sdn_auth');
+            if (isAuthenticated !== 'true') {
+                window.location.href = "index.html";
+            }
+        })();
+    </script>
+ <script>
+    (function() {
+        // Verifica se o dispositivo é mobile baseado no User Agent ou largura da tela
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                         || (window.innerWidth <= 800);
+
+        if (isMobile) {
+            window.location.href = "no-mobile.html";
+        }
+    })();
+</script>
+    <style>
+        :root {
+            --neon-green: #46fa5b;
+            --danger-red: #ff0000;
+        }
+
+        body {
+            background-color: #050505;
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .container { max-width: 800px; padding: 20px; z-index: 2; }
+
+        h1 { 
+            font-family: 'Special Elite', serif; 
+            font-size: 1.6rem; 
+            margin-bottom: 2rem; 
+            line-height: 1.6;
+            min-height: 120px;
+        }
+
+        .btn-group { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
+
+        .btn {
+            padding: 15px 30px;
+            border: 1px solid var(--neon-green);
+            background: transparent;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: bold;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .btn:hover { background: var(--neon-green); color: black; box-shadow: 0 0 20px var(--neon-green); }
+
+        #btn-stay:hover {
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            box-shadow: 0 0 20px var(--danger-red);
+        }
+
+        .glitch-active {
+            animation: screen-shake 0.15s infinite;
+            background-color: #0a0000;
+        }
+
+        @keyframes screen-shake {
+            0% { transform: translate(0); }
+            20% { transform: translate(3px, -3px); filter: contrast(1.5); }
+            40% { transform: translate(-3px, 3px); }
+            60% { transform: translate(3px, 3px); filter: hue-rotate(10deg); }
+            80% { transform: translate(-3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        .text-warning { color: var(--danger-red) !important; text-shadow: 0 0 10px red; }
+    </style>
+</head>
+<body>
+
+    <audio id="glitchSound" src="https://www.soundjay.com/buttons_c2026/sounds/beep-17.mp3" preload="auto"></audio>
+
+    <div class="container">
+        <h1 id="welcome-text">
+            Bem vindo(a) de volta, deseja retornar para tela da Agência? <br>
+            Ou deseja continuar verificando os arquivos de código restrito ao publico N°-536f6272656e61747572616c?
+        </h1>
+
+        <div class="btn-group">
+            <a href="missions.html" class="btn">Voltar a normalidade</a>
+            <button class="btn" id="btn-stay" onclick="window.location.href='sobrenatural.html'">Continuar Aqui</button>
+        </div>
+    </div>
+
+    <script>
+        // 2. Lógica de Interação e Efeitos (Executa após o HTML carregar)
+        const user = sessionStorage.getItem('active_user') || "AGENTE";
+        const welcomeText = document.getElementById('welcome-text');
+        const btnStay = document.getElementById('btn-stay');
+        const glitchSound = document.getElementById('glitchSound');
+        const body = document.body;
+        const originalText = welcomeText.innerHTML;
+
+        // Função para tentar tocar o som (contornando bloqueio do navegador)
+        const playSound = () => {
+            if (user !== "Constantino") {
+                const promise = glitchSound.play();
+                if (promise !== undefined) {
+                    promise.then(() => {
+                        glitchSound.loop = true;
+                    }).catch(error => {
+                        console.log("Som bloqueado: Clique na tela uma vez primeiro.");
+                    });
+                }
+            }
+        };
+
+        btnStay.addEventListener('mouseenter', () => {
+            if (user === "Constantino") {
+                welcomeText.innerHTML = "Fique a vontade senhor.";
+                welcomeText.style.color = "var(--neon-green)";
+            } else {
+                welcomeText.innerHTML = `TEM CERTEZA? <br> ${user.toUpperCase()}`;
+                welcomeText.classList.add('text-warning');
+                body.classList.add('glitch-active');
+                playSound();
+            }
+        });
+
+        btnStay.addEventListener('mouseleave', () => {
+            welcomeText.innerHTML = originalText;
+            welcomeText.classList.remove('text-warning');
+            welcomeText.style.color = "";
+            body.classList.remove('glitch-active');
+            
+            glitchSound.pause();
+            glitchSound.currentTime = 0;
+        });
+    </script>
+</body>
+</html>

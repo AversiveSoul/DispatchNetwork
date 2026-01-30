@@ -99,6 +99,97 @@
       .custom-scrollbar::-webkit-scrollbar { width: 4px; }
       .custom-scrollbar::-webkit-scrollbar-track { background: var(--bg-dark); }
       .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 10px; }
+      .eye-button {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        padding: 10px;
+        transition: transform 0.3s;
+    }
+
+    .eye-button:hover {
+        transform: scale(1.1);
+    }
+
+    /* O formato da pálpebra/fenda */
+    .eye-lid {
+        width: 40px;
+        height: 20px;
+        background: #000;
+        border: 1px solid rgba(70, 250, 91, 0.2); /* Cor do seu sistema */
+        border-radius: 50% 0; /* Formato de fenda orgânica */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        transition: 0.3s;
+        animation: eye-blink 7s infinite ease-in-out;
+    }
+
+    /* A pupila/íris */
+    .eye-ball {
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        animation: eye-look 5s infinite alternate;
+    }
+
+    .eye-iris {
+        width: 5px;
+        height: 5px;
+        background: #ff0000; /* Vermelho para parecer perigoso */
+        border-radius: 50%;
+    }
+
+    /* Texto que só aparece no Hover */
+    .eye-glitch-text {
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 8px;
+        color: #ff0000;
+        margin-top: 5px;
+        opacity: 0;
+        transition: 0.3s;
+        text-shadow: 0 0 5px red;
+    }
+
+    .eye-button:hover .eye-glitch-text {
+        opacity: 1;
+        animation: text-flicker 0.1s infinite;
+    }
+
+    .eye-button:hover .eye-lid {
+        border-color: #ff0000;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    }
+
+    /* Animação de Piscar */
+    @keyframes eye-blink {
+        0%, 90%, 100% { height: 20px; }
+        95% { height: 0px; } /* Fecha o olho rapidamente */
+    }
+
+    /* Animação de olhar para os lados */
+    @keyframes eye-look {
+        0% { transform: translate(-5px, 0); }
+        50% { transform: translate(5px, 0); }
+        100% { transform: translate(0, 0); }
+    }
+
+    /* Efeito de glitch no texto */
+    @keyframes text-flicker {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 0.8; }
+    }
     </style>
   </head>
   <body class="crt-effect">
@@ -176,6 +267,14 @@
                   <a href="feed.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
                     TERMINAL DE COMUNICAÇÕES
                   </a>
+                  <a href="sobrenatural.html" class="eye-button" title="ACESSO NÃO AUTORIZADO">
+    <div class="eye-lid">
+        <div class="eye-ball">
+            <div class="eye-iris"></div>
+        </div>
+    </div>
+    <div class="eye-glitch-text">?</div>
+</a>
 
                   {/* Botão para voltar à lista quando estiver no perfil */}
                   {showProfile && (

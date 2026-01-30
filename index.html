@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>S.D.N. - Acesso Restrito</title>
+     <script>
+    (function() {
+        // Verifica se o dispositivo é mobile baseado no User Agent ou largura da tela
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                         || (window.innerWidth <= 800);
+
+        if (isMobile) {
+            window.location.href = "no-mobile.html";
+        }
+    })();
+</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@700&display=swap" rel="stylesheet">
     <style>

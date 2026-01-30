@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "entidade": "“Smiler“",
+    "evento": "",
+    "InformacaoConhecida": "Não temos imagens reais da criatura, apenas uma vítima sobrevivente conseguiu reportar sua aparência e solicitar ajuda à SDN. Antes, casos sobrenaturais como esse eram tratados como algo bobo, ou julgávamos as vítimas como loucas, mas depois de um incidente no interior onde todos os moradores de uma pequena cidade se mataram, começamos a levar o caso mais a sério. Infelizmente, a testemunha que nos ajudou a identificar a criatura também se matou alguns dias depois, apresentando a mesma aparência de todos que se mataram por culpa dessa entidade; uma morte horrenda, mas com os olhos abertos e um sorriso no rosto. Esse foi o caso 1 para a SDN: investir em super-heróis que conseguem lidar com o paranormal ou estão envolvidos no meio.",
+    "nivelDePerigo": 85,
+    "imagemAcidente": "smilervitimas.jpg",
+    "portraitFilename": "Smiler.jpg"
+  },
+  {
+    "id": 2,
+    "entidade": "",
+    "evento": "“Fall“",
+    "InformacaoConhecida": "Evento de circunstância desconhecida: pessoas flutuam e caem resultando em morte, sempre em morte, sem sobreviventes. Não parece ser relacionado a uma entidade, mas um evento sobrenatural equivalente a um desastre natural como um terremoto. O problema é identificar a causa e como prever para evitar o mínimo de vítimas.",
+    "nivelDePerigo": 98,
+    "imagemAcidente": "fallVitimas.jpg",
+    "portraitFilename": "fall.jpg"
+  },
+    {
+    "id": 3,
+    "entidade": "“Infinity“",
+    "evento": "",
+    "InformacaoConhecida": "Alguns cultistas no passado veneravam essa entidade como meio de transcender, alguns até se ofereceram para fazer parte dela, não sabemos se conseguiram, ou se foram mortos, bom, temos os cadáveres deles e algumas escrituras, os textos se referem a essa entidade como algo além do nosso planeta, algo que existe há mais tempo, cientistas acharam dados de matéria desconhecida indicando que pode ser algo até além do plano sobrenatural mais conhecido, talvez o sobrenatural do sobrenatural? Mas, ao que tudo indica, essa entidade vê nossa raça como inferior e não tende a entrar em contato com facilidade, mas, dado as imagens encontradas no livro e o caos deixado na cena de tentativas de acessar o plano dessa criatura, ser, ou seja lá o que for, é bom que não crie nenhum interesse na nossa espécie, ou tenha motivos válidos para tentar vir até aqui.",
+    "nivelDePerigo": 100,
+    "imagemAcidente": "infinityvitimas.jpg",
+    "portraitFilename": "Infinity.jpg"
+  } 
+]

@@ -5,10 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Control - Tactical Interface</title>
     <script>
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('sdn_auth');
+            if (isAuthenticated !== 'true') {
+                window.location.href = "index.html";
+            }
+        })();
+    </script>
+     <script>
     (function() {
-        const isAuthenticated = sessionStorage.getItem('sdn_auth');
-        if (isAuthenticated !== 'true') {
-            window.location.href = "index.html";
+        // Verifica se o dispositivo é mobile baseado no User Agent ou largura da tela
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                         || (window.innerWidth <= 800);
+
+        if (isMobile) {
+            window.location.href = "no-mobile.html";
         }
     })();
 </script>
@@ -20,35 +31,34 @@
     <style>
         body { background-color: #050505; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
         
+        /* Estilos do Overlay de Autenticação */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 9999; display: flex;
+            justify-content: center; align-items: center; transition: opacity 0.5s;
+        }
+        .auth-box {
+            border: 1px solid #00ff41; padding: 40px; text-align: center;
+            background: rgba(0, 20, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+        .auth-btn {
+            margin-top: 20px; padding: 10px 20px; border: 1px solid #60a5fa;
+            color: #60a5fa; cursor: pointer; text-transform: uppercase; font-size: 14px;
+        }
+        .auth-btn:hover { background: rgba(96, 165, 250, 0.1); box-shadow: 0 0 10px #60a5fa; }
+
         .scanline { width: 100%; height: 100px; z-index: 99; background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 65, 0.1) 50%, rgba(0, 0, 0, 0) 100%); opacity: 0.1; position: absolute; bottom: 100%; animation: scanline 10s linear infinite; pointer-events: none; }
         @keyframes scanline { 0% { bottom: 100%; } 100% { bottom: -100%; } }
         
         .crt::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none; }
         
         .map-container { position: relative; width: 100%; height: 100%; cursor: crosshair; background-image: url('Dispatch_map.png'); background-size: cover; background-position: center; border: 2px solid #004411; }
-
         .marker { position: absolute; transform: translate(-50%, -50%); cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; }
         .marker:hover { transform: translate(-50%, -50%) scale(1.3); }
-        
-        .marker-core {
-            width: 35px; height: 35px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 2px solid currentColor; background: rgba(0,0,0,0.7);
-            box-shadow: 0 0 15px currentColor;
-        }
-
+        .marker-core { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid currentColor; background: rgba(0,0,0,0.7); box-shadow: 0 0 15px currentColor; }
         .marker-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-
-        .pulse-ring {
-            position: absolute; width: 100%; height: 100%;
-            border: 2px solid currentColor; border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
+        .pulse-ring { position: absolute; width: 100%; height: 100%; border: 2px solid currentColor; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
         .nav-link { position: relative; padding: 8px 16px; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; border: 1px solid transparent; }
         .nav-link.agents { color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); }
@@ -57,16 +67,56 @@
         
         .glow-border { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); }
         .terminal-bg { background: rgba(2, 8, 2, 0.9); }
-        
         .custom-scrollbar::-webkit-scrollbar { height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #000; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #004411; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #00ff41; }
+
+        /* Estilos do Olho (Sobrenatural) */
+        .eye-button { position: relative; display: flex; flex-direction: column; align-items: center; text-decoration: none; cursor: pointer; padding: 10px; transition: transform 0.3s; }
+        .eye-button:hover { transform: scale(1.1); }
+        .eye-lid { width: 40px; height: 20px; background: #000; border: 1px solid rgba(70, 250, 91, 0.2); border-radius: 50% 0; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; transition: 0.3s; animation: eye-blink 7s infinite ease-in-out; }
+        .eye-ball { width: 12px; height: 12px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); animation: eye-look 5s infinite alternate; }
+        .eye-iris { width: 5px; height: 5px; background: #ff0000; border-radius: 50%; }
+        .eye-glitch-text { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: #ff0000; margin-top: 5px; opacity: 0; transition: 0.3s; text-shadow: 0 0 5px red; }
+        .eye-button:hover .eye-glitch-text { opacity: 1; animation: text-flicker 0.1s infinite; }
+        .eye-button:hover .eye-lid { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+
+        @keyframes eye-blink { 0%, 90%, 100% { height: 20px; } 95% { height: 0px; } }
+        @keyframes eye-look { 0% { transform: translate(-5px, 0); } 50% { transform: translate(5px, 0); } 100% { transform: translate(0, 0); } }
+        @keyframes text-flicker { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 0.8; } }
     </style>
 </head>
 <body class="crt">
+    <audio id="bgMusic" loop>
+        <source src="musica1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="overlay">
+        <div class="auth-box">
+            <h2 style="color: #00ff41; font-size: 18px; letter-spacing: 2px;">SISTEMA SDN AGUARDANDO AUTENTICAÇÃO</h2>
+            <button id="startBtn" class="auth-btn">HABILITAR INTERFACE DE ÁUDIO & VÍDEO</button>
+        </div>
+    </div>
+
     <div id="root"></div>
     <div class="scanline"></div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const overlay = document.getElementById('overlay');
+        const startBtn = document.getElementById('startBtn');
+
+        music.volume = 0.15;
+
+        startBtn.addEventListener('click', () => {
+            music.play().catch(e => console.log("Erro ao tocar música:", e));
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        });
+    </script>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
@@ -118,6 +168,14 @@
                                 <a href="funcionarios.html" className="nav-link agents">Registro de Funcionários</a>
                                 <a href="news.html" className="nav-link agents">Registro de Notícias</a>
                                 <a href="feed.html" className="nav-link agents">Terminal de Comunicação</a>
+                                <a href="sobrenatural.html" className="eye-button" title="ACESSO NÃO AUTORIZADO">
+                                    <div className="eye-lid">
+                                        <div className="eye-ball">
+                                            <div className="eye-iris"></div>
+                                        </div>
+                                    </div>
+                                    <div className="eye-glitch-text">?</div>
+                                </a>
                             </nav>
                         </div>
                         
@@ -181,7 +239,6 @@
                         {agents.map((agent, i) => (
                             <div 
                                 key={i} 
-                                /* O ajuste principal foi feito aqui: enviando o ID único do agente na URL */
                                 onClick={() => window.location.href = `SDNAgentNetwork.html?id=${agent.id || agent.FILE_ID || i}`}
                                 className="min-w-[110px] glow-border terminal-bg p-2 flex flex-col items-center group hover:bg-green-950/20 transition-colors cursor-pointer"
                             >

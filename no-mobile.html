@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACESSO NEGADO - SDN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            border: 1px solid #00ff41;
+            padding: 30px;
+            background: rgba(0, 20, 0, 0.9);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            max-width: 80%;
+        }
+
+        h1 { font-size: 1.5rem; margin-bottom: 20px; }
+        p { font-size: 1rem; line-height: 1.5; color: #008f11; }
+        
+        .blink { animation: blink 1s infinite; }
+        @keyframes blink { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0; } 
+        }
+    </style>
+</head>
+<body class="crt">
+    <div class="container">
+        <h1 class="blink"> [!] ERRO DE COMPATIBILIDADE [!] </h1>
+        <p>Detectamos uma interface móvel não autorizada.</p>
+        <p>Este terminal do <strong>SDN//NETWORK</strong> não foi otimizado para dispositivos móveis.</p>
+        <hr style="border: 0.5px solid #004411; margin: 20px 0;">
+        <p style="color: #fff;">FAVOR ABRIR NO COMPUTADOR PARA ACESSO TÁTICO COMPLETO.</p>
+    </div>
+</body>
+</html>
