@@ -1,5 +1,140 @@
 [ 
-    {
+{
+
+    "id_funcionario": 909538,
+
+    "texto": "ACABEI DE DESCOBRIR QUE A SDN COM A AJUDA DA REGINA FECHARAM ACORDO COM O PADRE GRINDER DE MELO, EU AMO ESSE CARA.",
+
+    "resposta1": "Ele é um dos poucos padres que tem meu respeito também.",
+
+    "id_funcionarioResposta1": 111111,
+
+    "resposta2":"Não conheço esse, mas minha avó adorava um padre ai, ela sempre ia nas missas quando ela podia, sinto falta dela.",
+
+    "id_funcionarioResposta2": 389238
+},
+{
+
+    "id_funcionario": 512412,
+
+    "texto": "É para eu entrar em contato com quem mesmo para convocar para a equipe?",
+
+    "resposta1": "O namorado da XZ aquele velocista lá.",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"O Ajato?",
+
+    "id_funcionarioResposta2": 512412,
+
+    "resposta3":"Tem outro por acaso?",
+
+    "id_funcionarioResposta3": 909538
+},
+{
+
+    "id_funcionario": 512311,
+
+    "texto": "POR QUE A GERENTE GERAL DO RH TÁ VINDO PARA CÁ???",
+
+    "resposta1": "Estamos fudidos.",
+
+    "id_funcionarioResposta1": 200222,
+
+    "resposta2":"Relaxa pessoal, a Alice tá vindo a trabalho, mas não para resolver coisas do RH, ta tudo bem.",
+
+    "id_funcionarioResposta2": 111111
+
+},    
+{
+
+    "id_funcionario": 812313,
+
+    "texto": "Gente pq minha popularidade é tão baixa?",
+
+    "resposta1": "Bem vindo ao clube.",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"se tu tentasse realmente ajudar os outros em vez de só ficar falando o obvio, ou mandando as pessoas se virarem, acho que gostariam mais de tu.",
+
+    "id_funcionarioResposta2": 254521
+
+},    
+{
+
+    "id_funcionario": 505531,
+
+    "texto": "Perco noites de sono fazendo uma rede descente interna para ver um alienigena falando de sexo e vocês conversando besteira, acho que finalmente meu trabalho valeu a pena.",
+
+    "resposta1": "Obrigada por isso inclusive, propagar fofoca e caos nunca foi tão facil.",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"A ideia do terminal de comunicação foi minha, então... de nada.",
+
+    "id_funcionarioResposta2": 254521
+
+},
+{
+
+    "id_funcionario": 431234,
+
+    "texto": "Soube do carinha novo que vai entrar para os agentes, acham que é seguro mesmo deixar esse Severin andando por aqui quando ele chegar?",
+
+    "resposta1": "Definitivamente não é seguro, mas vai ser divertido.",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"Não se preocupa, tá tudo sob controle e tem a XZ caso ele faça besteira.",
+
+    "id_funcionarioResposta2": 111111,
+
+    "resposta3": "Além que tem meus hamburguers, ninguem arruma confusão de barriga cheia.",
+
+    "id_funcionarioResposta3": 223087,
+
+    "resposta4":"Já vai preparando 2 ai para mim, to morto de fome.",
+
+    "id_funcionarioResposta4": 909538
+
+
+},
+{
+
+    "id_funcionario": 712334,
+
+    "texto": "Gente o que é sexo? Li num pedaço de papel que o Herick e eu não dariamos certo por causa disso.",
+
+    "resposta1": "Quer uma aula pratica ou teorica sobre? XD",
+
+    "id_funcionarioResposta1": 909538,
+
+    "resposta2":"Kleber tu as vezes se esforça por uma demissão.",
+
+    "id_funcionarioResposta2": 111111,
+
+    "resposta3": "Só tava querendo ajudar, só isso, pode nem mais querer ajudar.",
+
+    "id_funcionarioResposta3": 909538,
+
+    "resposta4":"Ação ou prática sexual, popularmente chamado de transa é o que delimita seus papéis na reprodução, ou diversão.",
+
+    "id_funcionarioResposta4": 155541,
+
+    "resposta5":"Abraço conta como esse tal de sexo?",
+
+    "id_funcionarioResposta5": 712334,
+
+    "resposta6": "Como tua especie nasce krl? vocês não transam?",
+
+    "id_funcionarioResposta6": 909538,
+
+    "resposta7":"XZ, não conversa sobre isso aqui, conselho de amiga e fala disso com o Herick depois, além que não acho que isso vai impedir vocês e ignora o Kleber.",
+
+    "id_funcionarioResposta7": 111111
+},
+{
 
     "id_funcionario": 612412,
 
