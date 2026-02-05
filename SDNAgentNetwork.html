@@ -267,15 +267,32 @@
                   <a href="feed.html" className="bg-blue-900/20 border border-blue-500/50 text-blue-400 px-4 py-2 rounded text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all tracking-widest">
                     TERMINAL DE COMUNICAÇÕES
                   </a>
-                  <a href="sobrenatural.html" class="eye-button" title="ACESSO NÃO AUTORIZADO">
-    <div class="eye-lid">
-        <div class="eye-ball">
-            <div class="eye-iris"></div>
-        </div>
-    </div>
-    <div class="eye-glitch-text">?</div>
-</a>
+<a 
+  href="TeamS.html" 
+  className="relative flex items-center justify-center group w-16 h-16 transition-transform hover:scale-125 active:scale-90"
+  title="Acessar Registro Team-S"
+>
+  {/* Aura de brilho ao fundo (Pulsante) */}
+  <div className="absolute inset-0 bg-yellow-500 rounded-full blur-xl opacity-30 group-hover:opacity-70 animate-pulse transition-opacity"></div>
+  
+  {/* Estrela Principal */}
+  <svg 
+    viewBox="0 0 24 24" 
+    className="w-10 h-10 fill-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,1)] relative z-10"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+  </svg>
 
+  {/* Brilho interno (Reflexo) */}
+  <svg 
+    viewBox="0 0 24 24" 
+    className="w-10 h-10 fill-white opacity-40 absolute blur-[2px] z-20 pointer-events-none group-hover:opacity-80 transition-opacity"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+  </svg>
+</a>
                   {/* Botão para voltar à lista quando estiver no perfil */}
                   {showProfile && (
                     <button 

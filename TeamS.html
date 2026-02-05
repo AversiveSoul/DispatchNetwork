@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDN // GLOBAL_ASSET_DATABASE</title>
+    
+    <script>
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('sdn_auth');
+            if (isAuthenticated !== 'true') {
+                window.location.href = "index.html";
+            }
+        })();
+    </script>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=JetBrains+Mono:wght@300;500&family=Libre+Baskerville:italic&display=swap" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --un-blue: #008eb0;
+            --un-dark: #001a23;
+            --gold-honor: #d4af37;
+            --danger: #ff3e3e;
+            --success: #22c55e;
+        }
+
+        body {
+            background-color: #010508;
+            color: #d1d5db;
+            font-family: 'JetBrains Mono', monospace;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 142, 176, 0.05) 0%, transparent 80%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-size: 100% 100%, 100% 4px, auto;
+            overflow-x: hidden;
+        }
+
+        .emoji { height: 1.2em; width: 1.2em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline; }
+
+        .world-bg {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(0, 142, 176, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            border: 1px solid rgba(0, 142, 176, 0.1);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .title-grandioso {
+            font-family: 'Big Shoulders Display', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeOut 1s ease-in forwards 4s;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .hero-card-v2 {
+            background: linear-gradient(145deg, rgba(10, 25, 41, 0.9), rgba(2, 6, 12, 0.95));
+            border-left: 2px solid var(--un-blue);
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .hero-card-v2:hover { transform: scale(1.01); }
+
+        .status-badge {
+            position: absolute;
+            top: 0; 
+            right: 0;
+            color: white;
+            font-size: 10px;
+            padding: 6px 15px;
+            font-weight: 900;
+            z-index: 35;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            white-space: nowrap;
+            border-bottom-left-radius: 4px;
+            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .badge-privada { background: var(--un-blue); border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .badge-publica { background: var(--success); border-bottom: 1px solid rgba(255,255,255,0.2); }
+
+        .honor-gold {
+            border-left: 2px solid var(--gold-honor);
+            background: linear-gradient(145deg, rgba(20, 15, 5, 0.95), rgba(5, 5, 0, 0.98));
+        }
+
+        .flag-icon { filter: saturate(0.5) contrast(1.2); border: 1px solid rgba(255,255,255,0.1); }
+
+        .btn-return {
+            position: fixed;
+            top: 20px; left: 20px;
+            z-index: 50;
+            background: rgba(0, 142, 176, 0.1);
+            border: 1px solid var(--un-blue);
+            color: var(--un-blue);
+            padding: 8px 15px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-return:hover { background: var(--un-blue); color: white; box-shadow: 0 0 15px var(--un-blue); }
+
+        .photo-label {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 9px;
+            padding: 4px 0;
+            text-align: center;
+            z-index: 25;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(0, 142, 176, 0.4);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="world-bg"></div>
+    <audio id="bgMusic" loop>
+        <source src="musica3.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const getLgbtFlag = (flagName) => {
+            const flags = {
+                "Rainbow": "https://upload.wikimedia.org/wikipedia/commons/4/48/Gay_Pride_Flag.svg",
+                "Trans": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Transgender_Pride_flag.svg",
+                "Bi": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Bisexual_Pride_Flag.svg",
+                "Pan": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Pansexuality_Pride_Flag.svg",
+                "Ace": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Asexual_Pride_Flag.svg",
+                "NonBinary": "https://upload.wikimedia.org/wikipedia/commons/7/75/Nonbinary_flag.svg",
+                "Lesbian": "https://upload.wikimedia.org/wikipedia/commons/archive/3/35/20220730224304%21Lesbian_Pride_Flag_2019.svg"
+            };
+            return flags[flagName.trim()] || null;
+        };
+
+        const usuariosDB = [
+            { "heroName": "Super Estrelado", "portraitFilename": "SuperEstrelado.jpg" },
+            { "heroName": "Constantino", "portraitFilename": "Constantino.jpg" },
+            { "heroName": "Severin", "portraitFilename": "Severin.jpg" },
+            { "heroName": "Compliance", "portraitFilename": "Compliance.jpg" },
+            { "heroName": "Á Jato", "portraitFilename": "Ajato.jpg" }
+        ];
+
+        const nomeUsuarioLogado = sessionStorage.getItem('active_user');
+        const usuarioEncontrado = usuariosDB.find(u => u.heroName === nomeUsuarioLogado);
+        const loggedHero = usuarioEncontrado || { heroName: nomeUsuarioLogado || "Agente Convidado", portraitFilename: "default.jpg" };
+
+        function Intro() {
+            return (
+                <div className="intro-overlay">
+                    <div className="text-center animate-pulse">
+                        <img 
+                            src={`./FotosDosAgentes/${loggedHero.portraitFilename}`} 
+                            className="w-32 h-32 rounded-full border-2 border-un-blue mx-auto mb-6 object-cover"
+                            onError={(e) => e.target.src="https://via.placeholder.com/150?text=USER"}
+                            alt="Hero"
+                        />
+                        <h2 className="text-un-blue text-sm tracking-[0.5em] mb-2 uppercase">Acesso Autorizado</h2>
+                        <h1 className="text-4xl title-grandioso text-white mb-2">Bem-vindo, {loggedHero.heroName}</h1>
+                        <p className="text-white/40 text-[10px] uppercase tracking-widest">Acessando Área Restrita de Ativos Especiais...</p>
+                    </div>
+                </div>
+            );
+        }
+
+        const getFlagUrl = (pais) => {
+            const countryMap = {
+                "Brasil": "br", "Estados Unidos": "us", "Japão": "jp", "Reino Unido": "gb", 
+                "Alemanha": "de", "França": "fr", "China": "cn", "Rússia": "ru", "Itália": "it", "Canadá": "ca"
+            };
+            const code = countryMap[pais] || "un";
+            return `https://flagcdn.com/w80/${code}.png`;
+        }
+
+        function DetailsModal({ hero, details, onClose }) {
+            if (!hero) return null;
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="bg-[#001a23] border border-un-blue/40 p-8 max-w-2xl w-full relative" onClick={e => e.stopPropagation()}>
+                        <button onClick={onClose} className="absolute top-4 right-4 text-un-blue hover:text-white">✕ FECHAR</button>
+                        
+                        <div className="flex flex-col md:flex-row gap-8">
+                            <div className="w-48 h-64 border border-un-blue/20 bg-black flex-shrink-0">
+                                <img 
+                                    src={`./TeamSfotos/${hero.foto || hero.heroname.replace(/\s+/g, '_') + '.jpg'}`}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => e.target.src="https://via.placeholder.com/200x300?text=CIVIL"}
+                                />
+                            </div>
+                            
+                            <div className="flex-1">
+                                <h2 className="text-4xl title-grandioso text-white leading-none">{hero.publicname || "NOME NÃO INFORMADO"}</h2>
+                                <p className="text-un-blue text-sm tracking-widest uppercase mb-1">{details?.pronomes || "Pronomes não registrados"}</p>
+                                
+                                <div className="flex gap-2 mb-4" id="flag-container">
+                                    {details?.bandeirinhas && details.bandeirinhas.split(',').map((f, idx) => {
+                                        const url = getLgbtFlag(f);
+                                        return url ? (
+                                            <img key={idx} src={url} alt={f} title={f.trim()} className="h-5 w-8 object-cover rounded-sm border border-white/10" />
+                                        ) : null;
+                                    })}
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <div>
+                                        <span className="text-[10px] text-white/40 block uppercase">Idade Cronológica:</span>
+                                        <span className="text-xl text-white">{details?.idade || "Confidencial"}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] text-white/40 block uppercase">Codinome de Operação:</span>
+                                        <span className="text-xl text-un-blue">{hero.heroname}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] text-white/40 block uppercase">Dossiê Biográfico:</span>
+                                        <p className="text-sm text-slate-300 leading-relaxed font-light italic">
+                                            {details?.bio || "Nenhum dado biográfico adicional disponível nos arquivos SDN."}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function HeroCard({ h, onOpen }) {
+            const isPrivate = h.identidade === "privada";
+            const hasHeroPhoto = h.herofoto && h.herofoto.trim() !== "";
+            
+            return (
+                <div className="hero-card-v2 w-full max-w-5xl mb-12 p-1 flex flex-col md:flex-row gap-0 group" onClick={() => onOpen(h)}>
+                    <div className={`status-badge ${isPrivate ? 'badge-privada' : 'badge-publica'}`}>
+                        {isPrivate ? 'ID_SECRETA' : 'ID_PÚBLICA'}
+                    </div>
+
+                    <div className="w-full md:w-auto bg-black/50 p-6 flex flex-col items-center border-r border-white/5 relative">
+                        <div className="flex gap-4 mb-6">
+                            {hasHeroPhoto && (
+                                <div className="relative w-32 h-48 overflow-hidden border border-un-blue/30 bg-slate-900">
+                                    <img 
+                                        src={`./TeamSfotos/${h.herofoto}`}
+                                        className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-700"
+                                        onError={(e) => e.target.style.display='none'}
+                                    />
+                                    <div className="photo-label">{h.heroname}</div>
+                                </div>
+                            )}
+
+                            <div className="relative w-32 h-48 overflow-hidden border border-white/10">
+                                <img 
+                                    src={`./TeamSfotos/${h.foto || h.heroname.replace(/\s+/g, '_') + '.jpg'}`}
+                                    className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-700"
+                                    onError={(e) => e.target.src="https://via.placeholder.com/200x300?text=CIVIL"}
+                                />
+                                <div className="photo-label">FOTO_CIVIL</div>
+                            </div>
+                        </div>
+
+                        <div className="text-center relative z-20">
+                            <span className="text-[10px] text-un-blue block font-bold tracking-widest uppercase">Rank Global</span>
+                            <span className="text-5xl title-grandioso text-white">{h.rank ? `#${h.rank}` : 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 p-8 relative">
+                        <div className="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 className="text-5xl title-grandioso text-white leading-none mb-1">{h.heroname}</h2>
+                                <div className="flex items-center gap-3">
+                                    <img src={getFlagUrl(h.nacionalidade)} className="w-6 flag-icon" />
+                                    <p className="text-sm font-medium tracking-tighter text-un-blue/80 uppercase">
+                                        {h.publicname || (isPrivate ? "IDENTIDADE PROTEGIDA" : "NOME PÚBLICO NÃO INFORMADO")} // {h.nacionalidade}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div>
+                                <span className="text-[9px] text-white/30 block mb-2">DIRETRIZ DE CAMPO / CITAÇÃO:</span>
+                                <p className="text-2xl font-light italic text-slate-300 font-serif leading-relaxed">
+                                    "{h.frase || "Nenhuma diretriz registrada."}"
+                                </p>
+                            </div>
+                            
+                            <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-4">
+                                <div className="bg-white/5 p-2 text-center">
+                                    <span className="block text-[8px] text-white/40 uppercase">Ameaça</span>
+                                    <span className="text-xs font-bold text-white">NÍVEL S</span>
+                                </div>
+                                <div className="bg-white/5 p-2 text-center">
+                                    <span className="block text-[8px] text-white/40 uppercase">Jurisdição</span>
+                                    <span className="text-xs font-bold text-un-blue">ILIMITADA</span>
+                                </div>
+                                <div className="bg-white/5 p-2 text-center">
+                                    <span className="block text-[8px] text-white/40 uppercase">Status ID</span>
+                                    <span className={`text-xs font-bold ${isPrivate ? 'text-un-blue' : 'text-green-500'}`}>
+                                        {isPrivate ? 'IDENTIDADE SECRETA' : 'IDENTIDADE PÚBLICA'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function HonorCard({ h }) {
+            return (
+                <div className="hero-card-v2 honor-gold w-full max-w-4xl mb-8 p-6 flex gap-8 items-center border border-gold-honor/20 relative cursor-default">
+                    <div className="w-32 h-32 flex-shrink-0 grayscale">
+                         <img 
+                            src={`./TeamSfotos/${h.foto || h.heroname.replace(/\s+/g, '_') + '.jpg'}`}
+                            className="w-full h-full object-cover rounded-full border-2 border-gold-honor/30"
+                            onError={(e) => e.target.src="https://via.placeholder.com/150?text=HERO"}
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <div className="flex justify-between items-baseline mb-2">
+                            <h3 className="text-3xl title-grandioso text-gold-honor">{h.heroname}</h3>
+                            <span className="text-xs font-bold text-gold-honor/60 tracking-widest">{h.dataMorte || 'DATA DESCONHECIDA'}</span>
+                        </div>
+                        <p className="text-[10px] text-white/50 mb-3 uppercase tracking-widest">{h.publicname} | {h.nacionalidade}</p>
+                        <p className="text-sm italic text-slate-400 leading-relaxed">"{h.homenagem || "Em memória de seus serviços à humanidade."}"</p>
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            const [data, setData] = useState([]);
+            const [detailsData, setDetailsData] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [showIntro, setShowIntro] = useState(true);
+            const [selectedHero, setSelectedHero] = useState(null);
+
+            useEffect(() => {
+                const playMusic = () => {
+                    const audio = document.getElementById('bgMusic');
+                    if(audio) audio.play().catch(() => {});
+                    window.removeEventListener('click', playMusic);
+                };
+                window.addEventListener('click', playMusic);
+
+                Promise.all([
+                    fetch(`./TeamS.json?v=${Date.now()}`).then(res => res.json()),
+                    fetch(`./teamSDetalhes.json?v=${Date.now()}`).then(res => res.json()).catch(() => [])
+                ]).then(([teamS, detalhes]) => {
+                    setData(Array.isArray(teamS) ? teamS : [teamS]);
+                    setDetailsData(Array.isArray(detalhes) ? detalhes : [detalhes]);
+                    setLoading(false);
+                    setTimeout(() => setShowIntro(false), 5000);
+                }).catch(() => setLoading(false));
+            }, []);
+
+            const openHeroDetails = (hero) => {
+                const details = detailsData.find(d => d.heroname === hero.heroname);
+                setSelectedHero({ hero, details });
+            };
+
+            if (loading) return (
+                <div className="h-screen flex flex-col items-center justify-center bg-black">
+                    <div className="w-16 h-16 border-4 border-un-blue border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <div className="tracking-[0.5em] text-un-blue animate-pulse text-[10px]">DECRYPTING_SDN_DATABASE...</div>
+                </div>
+            );
+
+            const top10 = data.filter(h => h.honor == 0 || h.honor == "0").sort((a, b) => a.rank - b.rank);
+            const memorials = data.filter(h => h.honor == 1 || h.honor == "1");
+
+            return (
+                <div className="min-h-screen pb-32">
+                    {showIntro && <Intro />}
+                    
+                    {selectedHero && (
+                        <DetailsModal 
+                            hero={selectedHero.hero} 
+                            details={selectedHero.details} 
+                            onClose={() => setSelectedHero(null)} 
+                        />
+                    )}
+
+                    <a href="missions.html" className="btn-return">
+                        &lt; Retornar
+                    </a>
+
+                    <header className="pt-24 pb-20 text-center relative">
+                        <div className="absolute inset-0 flex items-center justify-center -z-10">
+                            <h1 className="text-[15vw] font-black text-white/[0.02] select-none">SDN_GLOBAL</h1>
+                        </div>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_the_United_Nations.svg/1200px-Flag_of_the_United_Nations.svg.png" className="w-20 mx-auto mb-6 opacity-80" />
+                        <h1 className="text-6xl title-grandioso text-white tracking-widest">
+                            TEAM-S <span className="text-un-blue">REGISTRY</span>
+                        </h1>
+                        <p className="text-xs tracking-[0.8em] text-white/40 mt-4 uppercase font-light">
+                            Secretaria de Defesa das Nações // Protocolo de Vigilância Global
+                        </p>
+                    </header>
+
+                    <main className="max-w-6xl mx-auto px-6">
+                        <section className="mb-32">
+                            <div className="flex items-center gap-6 mb-16">
+                                <div className="h-[2px] w-20 bg-un-blue"></div>
+                                <h2 className="text-2xl title-grandioso text-white tracking-widest">OS MAIORES ATIVOS GLOBAIS</h2>
+                                <div className="h-[1px] flex-1 bg-gradient-to-r from-un-blue/50 to-transparent"></div>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                {top10.map(h => <HeroCard key={h.heroname} h={h} onOpen={openHeroDetails} />)}
+                            </div>
+                        </section>
+
+                        <section className="relative">
+                            <div className="flex items-center gap-6 mb-16">
+                                <div className="h-[2px] w-20 bg-gold-honor"></div>
+                                <h2 className="text-2xl title-grandioso text-gold-honor tracking-widest">GALERIA DE HONRA // ETERNOS</h2>
+                                <div className="h-[1px] flex-1 bg-gradient-to-r from-gold-honor/50 to-transparent"></div>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                {memorials.map(h => <HonorCard key={h.heroname} h={h} />)}
+                            </div>
+                        </section>
+                    </main>
+
+                    <footer className="mt-40 p-12 bg-black border-t border-white/5 flex flex-col items-center">
+                        <div className="text-[10px] font-bold text-un-blue tracking-[1em]">CONFIDENCIAL // ACESSO EXCLUSIVO</div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+</html>
