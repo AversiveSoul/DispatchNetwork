@@ -207,20 +207,40 @@
         // Estado para controlar se mostra o GRID ou o PERFIL
         const [showProfile, setShowProfile] = useState(false);
 
+        // Estados para controlar o ciclo dos áudios
+        const [supIdx, setSupIdx] = useState(0);
+        const [compliIdx, setCompliIdx] = useState(0);
+
         // Mapeamento de áudios por ID
         const agentSounds = {
-            "1768491663123": "audioconstan.mp3",
-            "1768395719622": "audiosup.mp3", // Reservado para futuro
-            "1768510191893": "audioseve.mp3", // Reservado para futuro
-            "1768587731876": "audiocompli.mp3", // Reservado para futuro
-            "1768588134350": ""  // Reservado para futuro
+            "1768491663123": ["audioconstan.mp3"],
+            "1768395719622": ["audiosup.mp3", "audiosup2.mp3"], 
+            "1768510191893": ["audioseve.mp3"], 
+            "1768587731876": ["audiocompli.mp3", "audiocompli2.mp3", "audiocompli3.mp3"], 
+            "1768588134350": [""]  
         };
 
         const playSound = (id) => {
-            const soundFile = agentSounds[id.toString()];
-            if (soundFile) {
-                const audio = new Audio(soundFile);
-                audio.play().catch(e => console.log("Audio play blocked or file not found"));
+            const idStr = id.toString();
+            const playlist = agentSounds[idStr];
+            
+            if (playlist && playlist[0] !== "") {
+                let fileToPlay = "";
+
+                if (idStr === "1768395719622") {
+                    fileToPlay = playlist[supIdx];
+                    setSupIdx((prev) => (prev + 1) % playlist.length);
+                } else if (idStr === "1768587731876") {
+                    fileToPlay = playlist[compliIdx];
+                    setCompliIdx((prev) => (prev + 1) % playlist.length);
+                } else {
+                    fileToPlay = playlist[0];
+                }
+
+                if (fileToPlay) {
+                    const audio = new Audio(fileToPlay);
+                    audio.play().catch(e => console.log("Audio play blocked or file not found"));
+                }
             }
         };
 
