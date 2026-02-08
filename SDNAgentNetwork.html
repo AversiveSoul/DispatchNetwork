@@ -207,6 +207,29 @@
         // Estado para controlar se mostra o GRID ou o PERFIL
         const [showProfile, setShowProfile] = useState(false);
 
+        // Mapeamento de áudios por ID
+        const agentSounds = {
+            "1768491663123": "audioconstan.mp3",
+            "1768395719622": "", // Reservado para futuro
+            "1768510191893": "", // Reservado para futuro
+            "1768587731876": "", // Reservado para futuro
+            "1768588134350": ""  // Reservado para futuro
+        };
+
+        const playSound = (id) => {
+            const soundFile = agentSounds[id.toString()];
+            if (soundFile) {
+                const audio = new Audio(soundFile);
+                audio.play().catch(e => console.log("Audio play blocked or file not found"));
+            }
+        };
+
+        const handleAgentSelection = (id) => {
+            setActiveId(id);
+            setShowProfile(true);
+            playSound(id);
+        };
+
         const loadAgents = async () => {
           setLoading(true);
           const timestamp = new Date().getTime();
@@ -219,8 +242,10 @@
             const params = new URLSearchParams(window.location.search);
             const urlId = params.get('id');
             if (urlId) {
-              setActiveId(Number(urlId));
+              const numericId = Number(urlId);
+              setActiveId(numericId);
               setShowProfile(true);
+              playSound(numericId);
             }
 
             setStatus("ENCRYPTED_ACCESS");
@@ -306,10 +331,7 @@
                   <select
                     className="bg-black border border-[#46fa5b]/50 rounded px-4 py-2 text-sm outline-none text-[#46fa5b] font-mono-tactical cursor-pointer"
                     value={activeId || ""}
-                    onChange={(e) => {
-                      setActiveId(Number(e.target.value));
-                      setShowProfile(true);
-                    }}
+                    onChange={(e) => handleAgentSelection(Number(e.target.value))}
                   >
                     <option value="" disabled>SELECIONE UM AGENTE</option>
                     {sheets.map((s) => (
@@ -330,7 +352,7 @@
                   {sheets.map((agent) => (
                     <div 
                       key={agent.id}
-                      onClick={() => { setActiveId(agent.id); setShowProfile(true); }}
+                      onClick={() => handleAgentSelection(agent.id)}
                       className="paper-card p-4 cursor-pointer hover:border-[#46fa5b] transition-all group"
                     >
                       <div className="text-[10px] font-mono-tactical text-[#46fa5b]/40 mb-2 uppercase tracking-tighter">ID: {agent.id}</div>
