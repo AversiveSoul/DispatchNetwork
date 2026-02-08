@@ -3,6 +3,20 @@
 
     "id_funcionario": 909538,
 
+    "texto": "Alguém sabe se a Alice S. tá solteira?",
+
+    "resposta1": "Você não é o cara que devia saber de tudo por aqui?",
+
+    "id_funcionarioResposta1": 111111,
+
+    "resposta2":"Isso não responde minha pergunta.",
+
+    "id_funcionarioResposta2": 909538
+},
+{
+
+    "id_funcionario": 909538,
+
     "texto": "ACABEI DE DESCOBRIR QUE A SDN COM A AJUDA DA REGINA FECHARAM ACORDO COM O PADRE GRINDER DE MELO, EU AMO ESSE CARA.",
 
     "resposta1": "Ele é um dos poucos padres que tem meu respeito também.",
