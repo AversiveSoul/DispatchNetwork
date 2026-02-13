@@ -198,7 +198,7 @@
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded border border-red-600 bg-cover bg-center" 
                                      style={{ backgroundImage: `url('../FotosDosAgentes/${usuarioAtivo.portraitFilename}')` }}
-                                     onError={(e) => e.target.style.backgroundImage = "url('https://i.imgur.com/8Km9h9E.png')"}></div>
+                                     onError={(e) => e.target.style.backgroundImage = "url('./arquivos/k404.jpg')"}></div>
                                 <div className="hidden md:block overflow-hidden">
                                     <p className="text-xs font-bold truncate text-red-500">{usuarioAtivo.heroName}</p>
                                     <p className="text-[10px] text-gray-500 mono">@Acesso_Externo</p>
@@ -265,7 +265,7 @@
             const hashtags = Array.isArray(post.hashtags) ? post.hashtags.filter(h => h && h !== "") : [];
 
             const getImgSrc = (img) => {
-                if(!img) return 'https://i.imgur.com/8Km9h9E.png';
+                if(!img) return './arquivos/k404.jpg';
                 if(img.startsWith('http')) return img;
                 return `./arquivos/${img}`;
             };
