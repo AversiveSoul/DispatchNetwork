@@ -8,7 +8,7 @@
         (function() {
             const isAuthenticated = sessionStorage.getItem('sdn_auth');
             if (isAuthenticated !== 'true') {
-                sessionStorage.setItem('sdn_auth', 'true');
+                window.location.href = "../index.html";
             }
         })();
     </script>
