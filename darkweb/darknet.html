@@ -93,6 +93,59 @@
             margin-top: 0.5rem;
             background: rgba(255, 255, 255, 0.01);
         }
+
+        .map-container {
+            background-image: url('./arquivos/Dispatch_map.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 600px;
+            border: 1px solid #1a1a1a;
+            overflow: hidden;
+            filter: sepia(100%) saturate(300%) hue-rotate(-50deg) brightness(0.6);
+            transition: filter 0.5s ease;
+        }
+
+        .map-container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 0, 0, 0.2);
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .map-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent 0px, rgba(255, 0, 0, 0.1) 2px, transparent 4px);
+            pointer-events: none;
+            z-index: 3;
+            animation: map-glitch 0.15s infinite;
+        }
+
+        @keyframes map-glitch {
+            0% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(1px); opacity: 0.8; }
+            100% { transform: translateY(-1px); opacity: 0.5; }
+        }
+
+        .mission-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            filter: none !important;
+        }
+        .mission-pin:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+            z-index: 20;
+        }
     </style>
 </head>
 <body class="scanlines">
@@ -104,6 +157,7 @@
         const App = () => {
             const [profiles, setProfiles] = useState([]);
             const [posts, setPosts] = useState([]);
+            const [missions, setMissions] = useState([]);
             const [loading, setLoading] = useState(true);
             const [securityGuard, setSecurityGuard] = useState(null);
             const [isBlocked, setIsBlocked] = useState(false);
@@ -119,13 +173,15 @@
 
             const fetchData = async () => {
                 try {
-                    const [resPerfis, resPosts] = await Promise.all([
+                    const [resPerfis, resPosts, resMissions] = await Promise.all([
                         fetch('./perfis.json?v=' + Date.now()),
-                        fetch('./posts.json?v=' + Date.now())
+                        fetch('./posts.json?v=' + Date.now()),
+                        fetch('./missionsdark.json?v=' + Date.now())
                     ]);
 
                     const dataPerfis = await resPerfis.json();
                     let dataPosts = await resPosts.json();
+                    const dataMissions = await resMissions.json();
 
                     dataPosts.sort((a, b) => {
                         const converterData = (dataStr) => {
@@ -137,6 +193,7 @@
 
                     setProfiles(dataPerfis);
                     setPosts(dataPosts);
+                    setMissions(dataMissions);
 
                     setSecurityGuard({
                         id: 909538,
@@ -145,7 +202,7 @@
                     });
 
                 } catch (err) {
-                    console.error("Erro ao carregar dados dos arquivos JSON:", err);
+                    console.error("Erro ao carregar dados:", err);
                 } finally {
                     setLoading(false);
                 }
@@ -197,7 +254,7 @@
                         <div className="space-y-4 flex-1">
                             <NavItem icon="☠" label="TERMINAL" active={currentView === 'feed'} onClick={() => {setCurrentView('feed'); setSelectedUser(null);}} />
                             <NavItem icon="☣" label="ARQUIVOS" onClick={triggerSecurity} />
-                            <NavItem icon="◈" label="CONTRATOS" onClick={triggerSecurity} />
+                            <NavItem icon="◈" label="CONTRATOS" active={currentView === 'contracts'} onClick={() => setCurrentView('contracts')} />
                             <NavItem icon="⚙" label="SISTEMA" onClick={triggerSecurity} />
                         </div>
                         <div className="mt-auto p-3 border border-red-900/40 rounded-md bg-red-950/10">
@@ -214,13 +271,12 @@
                     </nav>
 
                     <main className="flex-1 min-w-0 bg-[#020202]">
-                        {currentView === 'feed' ? (
+                        {currentView === 'feed' && (
                             <>
                                 <header className="p-4 border-b border-[#1a1a1a] backdrop-blur-md sticky top-0 z-10 bg-black/90 flex justify-between items-center">
                                     <h1 className="text-lg font-bold mono tracking-[0.3em] text-green-500">LIVE_FEED</h1>
                                     <span className="text-[10px] text-red-600 animate-pulse">● ENCRYPTED</span>
                                 </header>
-
                                 <div className="p-6 border-b border-[#1a1a1a] bg-gradient-to-b from-transparent to-[#080808]">
                                     <div className="flex gap-4">
                                         <div className="w-12 h-12 rounded-sm border border-gray-700 bg-cover bg-center" 
@@ -234,24 +290,22 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="divide-y divide-[#1a1a1a]">
                                     {posts.length > 0 ? posts.map((post, idx) => (
-                                        <Post 
-                                            key={idx} 
-                                            post={post} 
-                                            onHashtagClick={triggerSecurity} 
-                                            onProfileClick={handleProfileClick}
-                                            getProfile={(u) => profiles.find(p => p.usuario === u)} 
-                                            getImgSrc={getImgSrc}
-                                        />
+                                        <Post key={idx} post={post} onHashtagClick={triggerSecurity} onProfileClick={handleProfileClick} getProfile={(u) => profiles.find(p => p.usuario === u)} getImgSrc={getImgSrc} />
                                     )) : (
                                         <div className="p-10 text-center mono text-gray-600">NENHUMA TRANSMISSÃO ENCONTRADA NO BUFFER.</div>
                                     )}
                                 </div>
                             </>
-                        ) : (
+                        )}
+
+                        {currentView === 'profile' && (
                             <ProfilePage profile={selectedUser} onBack={() => {setCurrentView('feed'); setSelectedUser(null);}} getImgSrc={getImgSrc} />
+                        )}
+
+                        {currentView === 'contracts' && (
+                            <ContractsView missions={missions} profiles={profiles} getImgSrc={getImgSrc} triggerSecurity={triggerSecurity} />
                         )}
                     </main>
 
@@ -267,22 +321,114 @@
             );
         };
 
+        const ContractsView = ({ missions, profiles, getImgSrc, triggerSecurity }) => {
+            const [selectedMission, setSelectedMission] = useState(null);
+
+            const getProfileData = (username) => {
+                if (!username) return null;
+                return profiles.find(p => p.usuario === username);
+            };
+
+            const mandante = selectedMission ? getProfileData(selectedMission.vilain) : null;
+            const ajudante = selectedMission ? getProfileData(selectedMission.vilain2) : null;
+
+            return (
+                <div className="h-full flex flex-col animate-in fade-in duration-500">
+                    <header className="p-4 border-b border-[#1a1a1a] bg-black/90 flex justify-between items-center">
+                        <h1 className="text-lg font-bold mono tracking-[0.3em] text-red-500">DISPATCH_CENTER</h1>
+                        <span className="text-[10px] text-gray-500 mono">[ MAPA_DE_CONTRATOS_ATIVOS ]</span>
+                    </header>
+
+                    <div className="flex-1 relative overflow-hidden bg-black">
+                        <div className="map-container"></div>
+                        {missions.map(mission => (
+                            <div 
+                                key={mission.id}
+                                className="mission-pin group"
+                                style={{ left: `${mission.x}%`, top: `${mission.y}%` }}
+                                onClick={() => setSelectedMission(mission)}
+                            >
+                                <div className={`w-4 h-4 rounded-full border-2 border-white shadow-[0_0_10px_rgba(255,255,255,0.5)] ${
+                                    mission.threatLevel.includes('🔴') ? 'bg-red-600 shadow-red-600' : 
+                                    mission.threatLevel.includes('🟡') ? 'bg-yellow-500 shadow-yellow-500' : 'bg-green-500 shadow-green-500'
+                                } group-hover:scale-125 transition-transform`}></div>
+                                
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 hidden group-hover:block bg-black/90 border border-white/20 p-2 whitespace-nowrap z-30 pointer-events-none">
+                                    <p className="text-[10px] font-bold mono">{mission.operationId}</p>
+                                </div>
+                            </div>
+                        ))}
+
+                        {selectedMission && (
+                            <div className="absolute bottom-4 left-4 right-4 bg-black/95 border-t-2 border-red-600 p-6 z-40 animate-in slide-in-from-bottom duration-300 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 className="text-red-500 font-bold mono text-xl">{selectedMission.operationId}</h3>
+                                        <p className="text-xs text-gray-500 mono">{selectedMission.threatLevel} | LOCALIZAÇÃO: X:{Math.round(selectedMission.x)} Y:{Math.round(selectedMission.y)}</p>
+                                    </div>
+                                    <button onClick={() => setSelectedMission(null)} className="text-gray-500 hover:text-white mono text-xs">[ FECHAR ]</button>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div className="space-y-4">
+                                        <p className="text-sm text-gray-300 mono leading-relaxed border-l border-red-900 pl-4 italic">
+                                            {selectedMission.objective}
+                                        </p>
+                                        {/* Botão com triggerSecurity adicionado */}
+                                        <button 
+                                            onClick={triggerSecurity}
+                                            className="w-full py-2 bg-red-900/20 border border-red-600 text-red-500 font-bold mono text-xs hover:bg-red-600 hover:text-white transition-all"
+                                        >
+                                            SOLICITAR ACESSO AO CONTRATO
+                                        </button>
+                                    </div>
+
+                                    <div className="border-l border-white/5 pl-6 flex flex-col gap-4">
+                                        <h4 className="text-[10px] text-gray-600 mono uppercase tracking-widest">Envolvidos Detectados</h4>
+                                        
+                                        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-sm border border-white/5">
+                                            <img 
+                                                src={getImgSrc(mandante?.imagem_perfil)} 
+                                                className="w-10 h-10 object-cover border border-red-600"
+                                                onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
+                                            />
+                                            <div>
+                                                <p className="text-[9px] text-red-600 mono mb-1">MANDANTE</p>
+                                                <p className="text-xs font-bold text-gray-200">{mandante?.nome || "IDENTIDADE_OCULTA"}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-sm border border-white/5">
+                                            <img 
+                                                src={getImgSrc(ajudante?.imagem_perfil)} 
+                                                className="w-10 h-10 object-cover border border-gray-600"
+                                                onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
+                                            />
+                                            <div>
+                                                <p className="text-[9px] text-gray-500 mono mb-1">AJUDANTE</p>
+                                                <p className="text-xs font-bold text-gray-200">{ajudante?.nome || "NENHUM_DETECTADO"}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
         const Post = ({ post, onHashtagClick, onProfileClick, getProfile, getImgSrc }) => {
             const owner = getProfile(post.username) || { nome: "Usuário Desconhecido", imagem_perfil: "default.png", usuario: post.username };
             const hashtags = Array.isArray(post.hashtags) ? post.hashtags.filter(h => h && h !== "") : [];
-
             const replies = [];
             Object.keys(post).forEach(key => {
                 if (key.startsWith('reposta')) {
                     const num = key.replace('reposta', '');
                     const textoResp = post[key];
                     const donoResp = post[`donoResposta${num}`];
-                    
                     if (textoResp && textoResp.trim() !== "") {
-                        replies.push({
-                            texto: textoResp,
-                            username: donoResp
-                        });
+                        replies.push({ texto: textoResp, username: donoResp });
                     }
                 }
             });
@@ -290,20 +436,10 @@
             return (
                 <div className="flex flex-col">
                     <article className="post-card p-6 flex gap-4 bg-black/20">
-                        <img 
-                            src={getImgSrc(owner.imagem_perfil)} 
-                            className="w-12 h-12 rounded border border-white/5 cursor-pointer hover:opacity-80 transition-opacity object-cover" 
-                            onClick={() => onProfileClick(post.username)}
-                            onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
-                        />
+                        <img src={getImgSrc(owner.imagem_perfil)} className="w-12 h-12 rounded border border-white/5 cursor-pointer hover:opacity-80 transition-opacity object-cover" onClick={() => onProfileClick(post.username)} onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'} />
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-2">
-                                <span 
-                                    className="font-bold text-sm neon-user-name cursor-pointer hover:underline"
-                                    onClick={() => onProfileClick(post.username)}
-                                >
-                                    {owner.nome}
-                                </span>
+                                <span className="font-bold text-sm neon-user-name cursor-pointer hover:underline" onClick={() => onProfileClick(post.username)}>{owner.nome}</span>
                                 <span className="text-gray-600 text-[10px] mono">@{post.username.replace('@', '')}</span>
                                 <span className="text-gray-700 text-[10px] mono ml-auto">// {post.createdAt}</span>
                             </div>
@@ -314,17 +450,11 @@
                                     <span key={i} onClick={onHashtagClick} className="text-green-500 cursor-pointer hover:underline mr-2">{tag}</span>
                                 ))}
                             </p>
-                            
                             {post.media && post.media !== "" && (
                                 <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a]">
-                                    {post.type === 'image' ? (
-                                        <img src={`./arquivos/${post.media}`} className="w-full max-h-96 object-cover" />
-                                    ) : post.type === 'video' ? (
-                                        <video src={`./arquivos/${post.media}`} controls className="w-full" />
-                                    ) : null}
+                                    {post.type === 'image' ? <img src={`./arquivos/${post.media}`} className="w-full max-h-96 object-cover" /> : post.type === 'video' ? <video src={`./arquivos/${post.media}`} controls className="w-full" /> : null}
                                 </div>
                             )}
-
                             <div className="flex gap-6 mt-4 text-gray-600 mono text-[11px]">
                                 <span>REPLIES: {post.replies || 0}</span>
                                 <span>RETWEETS: {post.retweets || 0}</span>
@@ -332,17 +462,11 @@
                             </div>
                         </div>
                     </article>
-
                     {replies.map((rep, i) => {
                         const repOwner = getProfile(rep.username) || { nome: "Usuário Desconhecido", imagem_perfil: "default.png", usuario: rep.username };
                         return (
                             <div key={i} className="reply-card p-4 flex gap-3 mb-2">
-                                <img 
-                                    src={getImgSrc(repOwner.imagem_perfil)} 
-                                    className="w-8 h-8 rounded border border-white/5 cursor-pointer object-cover"
-                                    onClick={() => onProfileClick(rep.username)}
-                                    onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
-                                />
+                                <img src={getImgSrc(repOwner.imagem_perfil)} className="w-8 h-8 rounded border border-white/5 cursor-pointer object-cover" onClick={() => onProfileClick(rep.username)} onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'} />
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2 mb-1">
                                         <span className="font-bold text-xs text-red-500">{repOwner.nome}</span>
@@ -360,22 +484,16 @@
         const ProfilePage = ({ profile, onBack, getImgSrc }) => {
             if (!profile) return null;
             const audioRef = useRef(null);
-
             useEffect(() => {
                 if (profile.musicaDeFundo && profile.musicaDeFundo !== "") {
                     const audioPath = `./arquivos/${profile.musicaDeFundo}`;
                     audioRef.current = new Audio(audioPath);
                     audioRef.current.loop = true;
                     const playPromise = audioRef.current.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => console.log("Audio block:", error));
-                    }
+                    if (playPromise !== undefined) playPromise.catch(error => console.log("Audio block:", error));
                 }
                 return () => {
-                    if (audioRef.current) {
-                        audioRef.current.pause();
-                        audioRef.current = null;
-                    }
+                    if (audioRef.current) { audioRef.current.pause(); audioRef.current = null; }
                 };
             }, [profile]);
 
@@ -388,36 +506,19 @@
                             <p className="text-[10px] text-gray-500 mono">{profile.tweets} TRANSMISSÕES DETECTADAS</p>
                         </div>
                     </div>
-
                     <div className="relative">
-                        <div 
-                            className="h-48 bg-zinc-900 bg-cover bg-center border-b border-[#1a1a1a]"
-                            style={{ 
-                                backgroundImage: (profile.imagem_capa && profile.imagem_capa !== "") 
-                                    ? `url('./arquivos/${profile.imagem_capa}')` 
-                                    : 'none' 
-                            }}
-                        ></div>
+                        <div className="h-48 bg-zinc-900 bg-cover bg-center border-b border-[#1a1a1a]" style={{ backgroundImage: (profile.imagem_capa && profile.imagem_capa !== "") ? `url('./arquivos/${profile.imagem_capa}')` : 'none' }}></div>
                         <div className="px-6 -mt-16 mb-4 flex justify-between items-end">
-                            <img 
-                                src={getImgSrc(profile.imagem_perfil)} 
-                                className="w-32 h-32 rounded-sm border-4 border-black bg-black object-cover"
-                                onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
-                            />
-                            {profile.verificado && (
-                                <span className="bg-green-500 text-black px-2 py-1 text-[10px] font-bold mono mb-2">VERIFICADO_SDN</span>
-                            )}
+                            <img src={getImgSrc(profile.imagem_perfil)} className="w-32 h-32 rounded-sm border-4 border-black bg-black object-cover" onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'} />
+                            {profile.verificado && <span className="bg-green-500 text-black px-2 py-1 text-[10px] font-bold mono mb-2">VERIFICADO_SDN</span>}
                         </div>
                     </div>
-
                     <div className="p-6 space-y-4">
                         <div>
                             <h2 className="text-2xl font-bold neon-user-name">{profile.nome}</h2>
                             <p className="text-gray-500 mono">{profile.usuario}</p>
                         </div>
-                        <p className="text-gray-300 leading-relaxed italic border-l-2 border-green-500 pl-4">
-                            "{profile.bio || "Sem descrição disponível..."}"
-                        </p>
+                        <p className="text-gray-300 leading-relaxed italic border-l-2 border-green-500 pl-4">"{profile.bio || "Sem descrição disponível..."}"</p>
                         <div className="flex flex-wrap gap-4 text-xs text-gray-500 mono">
                             {profile.localizacao && <span>📍 {profile.localizacao}</span>}
                             <span>📅 INGRESSOU EM: {profile.data_criacao}</span>

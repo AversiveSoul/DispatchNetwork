@@ -1,0 +1,62 @@
+[
+  {
+    "operationId": "OP-RouboDoPicles",
+    "threatLevel": "🟢 Baixo",
+    "objective": "Quero ajuda para roubar um pote de picles, e trancar ele bem forte.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407428918,
+    "x": 14.899257688229056,
+    "y": 46.3768115942029,
+    "vilain": "@SpeedPunch",
+    "vilain2": "@PortalGuy"
+  },
+  {
+    "operationId": "OP-incendio-na-vila norte",
+    "threatLevel": "🟢 Baixo",
+    "objective": "Quem quer deixar uma vila queimando?. ",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407515072,
+    "x": 32.66171792152704,
+    "y": 15.65217391304348,
+     "vilain": "@Red",
+    "vilain2": "@WhiteNoise"
+  },
+  {
+    "operationId": "OP-CyberPsycho",
+    "threatLevel": "🔴 Alto",
+    "objective": "Alguém afim de fazer um maluco com tecnologia militar atacar uma loja de hamburguer?",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407612076,
+    "x": 32.7677624602333,
+    "y": 38.98550724637681,
+     "vilain": "@ReiDeVidro",
+    "vilain2": "@K_404"
+  },
+  {
+    "operationId": "OP-BlackMarket",
+    "threatLevel": "🔴 Alto",
+    "objective": "Quero vender minhas bombas.",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768407888067,
+    "x": 31.760339342523856,
+    "y": 65.07246376811594,
+    "vilain": "@Bombastic",
+    "vilain2": "@first_and_last"
+  },
+  {
+    "operationId": "OP-Gato-na-arvore",
+    "threatLevel": "🟢 Baixo",
+    "objective": "alguém me ajuda a por um gato numa arvore?",
+    "reward": "",
+    "timeWindow": "",
+    "id": 1768677508287,
+    "x": 62.67232237539767,
+    "y": 33.965014577259474,
+    "vilain": "@K_404",
+    "vilain2": "@first_and_last"
+  }
+]
