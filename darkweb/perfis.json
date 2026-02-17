@@ -87,7 +87,7 @@
     "data_criacao": "19/07/2043",
     "verificado": false,
     "privado": false,
-    "musicaDeFundo": ""
+    "musicaDeFundo": "ice.mp3"
 },
 {
     "usuario": "@Sixerin",
@@ -124,7 +124,7 @@
     "nome": "Palhacídio 🤡",
     "bio": "Relaxa, é só uma piada e por algum motivo o gás hélio é mais barato na deepweb.",
     "imagem_perfil": "clown.jpg",
-    "imagem_capa": "risada.png",
+    "imagem_capa": "palco.jpg",
     "seguidores": 1500,
     "seguindo": 200,
     "tweets": 420,
@@ -132,7 +132,7 @@
     "data_criacao": "01/04/2041",
     "verificado": false,
     "privado": false,
-    "musicaDeFundo": ""
+    "musicaDeFundo": "show.mp3"
 },
 {
     "usuario": "@SpeedPunch",
