@@ -112,5 +112,27 @@
     "repMedia": "57",
     "repCivis": "58",
     "portraitFilename": "Ajato.jpg"
+  },
+  {
+    "id": 1768588134461,
+    "heroName": "Shark Punk",
+    "playerName": "",
+    "ageProf": "",
+    "summary": "",
+    "attrCombate": "5",
+    "attrInteligencia": "1",
+    "attrCarisma": "3",
+    "attrMobilidade": "3",
+    "attrVigor": "3",
+    "powers": "Sla, ele faz coisas de tubarão? deve ser isso.",
+    "weaknesses": "Sla? nunca tentei matar um tubarão, um arpão deve servir.",
+    "conditions": "",
+    "goal": "",
+    "gear": "",
+    "activeOps": "A Regina resolveu dar uma chance para esse random, para mim tanto faz, mais gente para eu fofocar, por mais que nunca tenha ouvido falar desse cara.",
+    "repSdn": "50",
+    "repMedia": "50",
+    "repCivis": "50",
+    "portraitFilename": "SharkPunk.jpg"
   }
 ]
