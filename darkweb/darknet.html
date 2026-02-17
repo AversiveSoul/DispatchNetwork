@@ -158,6 +158,7 @@
             const [profiles, setProfiles] = useState([]);
             const [posts, setPosts] = useState([]);
             const [missions, setMissions] = useState([]);
+            const [teamS, setTeamS] = useState([]);
             const [loading, setLoading] = useState(true);
             const [securityGuard, setSecurityGuard] = useState(null);
             const [isBlocked, setIsBlocked] = useState(false);
@@ -173,15 +174,17 @@
 
             const fetchData = async () => {
                 try {
-                    const [resPerfis, resPosts, resMissions] = await Promise.all([
+                    const [resPerfis, resPosts, resMissions, resTeamS] = await Promise.all([
                         fetch('./perfis.json?v=' + Date.now()),
                         fetch('./posts.json?v=' + Date.now()),
-                        fetch('./missionsdark.json?v=' + Date.now())
+                        fetch('./missionsdark.json?v=' + Date.now()),
+                        fetch('../TeamS.json?v=' + Date.now())
                     ]);
 
                     const dataPerfis = await resPerfis.json();
                     let dataPosts = await resPosts.json();
                     const dataMissions = await resMissions.json();
+                    const dataTeamS = await resTeamS.json();
 
                     dataPosts.sort((a, b) => {
                         const converterData = (dataStr) => {
@@ -191,9 +194,15 @@
                         return converterData(b.createdAt) - converterData(a.createdAt);
                     });
 
+                    // Lógica para Arquivos: Filtrar ranks válidos e ordenar
+                    const validTeam = dataTeamS
+                        .filter(hero => hero.rank && hero.rank > 0)
+                        .sort((a, b) => a.rank - b.rank);
+
                     setProfiles(dataPerfis);
                     setPosts(dataPosts);
                     setMissions(dataMissions);
+                    setTeamS(validTeam);
 
                     setSecurityGuard({
                         id: 909538,
@@ -253,7 +262,7 @@
                         <div onClick={() => {setCurrentView('feed'); setSelectedUser(null);}} className="mb-10 px-2 text-red-600 font-bold text-4xl mono glitch-hover cursor-pointer">Shadow_Net</div>
                         <div className="space-y-4 flex-1">
                             <NavItem icon="☠" label="TERMINAL" active={currentView === 'feed'} onClick={() => {setCurrentView('feed'); setSelectedUser(null);}} />
-                            <NavItem icon="☣" label="ARQUIVOS" onClick={triggerSecurity} />
+                            <NavItem icon="☣" label="ARQUIVOS" active={currentView === 'arquivos'} onClick={() => setCurrentView('arquivos')} />
                             <NavItem icon="◈" label="CONTRATOS" active={currentView === 'contracts'} onClick={() => setCurrentView('contracts')} />
                             <NavItem icon="⚙" label="SISTEMA" onClick={triggerSecurity} />
                         </div>
@@ -307,6 +316,10 @@
                         {currentView === 'contracts' && (
                             <ContractsView missions={missions} profiles={profiles} getImgSrc={getImgSrc} triggerSecurity={triggerSecurity} />
                         )}
+
+                        {currentView === 'arquivos' && (
+                            <ArquivosView teamS={teamS} />
+                        )}
                     </main>
 
                     <aside className="hidden lg:block w-80 p-6 space-y-6 border-l border-[#1a1a1a]">
@@ -317,6 +330,50 @@
                             <TrendItem tag="#BlackMarket" posts="RESTRICTED" onClick={triggerSecurity} />
                         </div>
                     </aside>
+                </div>
+            );
+        };
+
+        const ArquivosView = ({ teamS }) => {
+            const getWarning = (rank) => {
+                if (rank >= 1 && rank <= 4) return "corre! se você viu ele, está fudido.";
+                if (rank >= 5 && rank <= 7) return "TALVEZ! ênfase no talvez! talvez você tenha uma chance...";
+                if (rank >= 8 && rank <= 10) return "Se tu for o Cold Ice, a Julgadora Noturna, o UnderCity ou alguém proximo do nível deles não precisa ter medo, mas não subestima.";
+                return "CUIDADO EXTREMO.";
+            };
+
+            return (
+                <div className="animate-in fade-in duration-500 h-full overflow-y-auto">
+                    <header className="p-4 border-b border-red-900 bg-red-950/20 sticky top-0 backdrop-blur-md z-10">
+                        <h1 className="text-xl font-bold mono tracking-tighter text-red-600 uppercase">
+                            [ ARQUIVOS_CONFIDENCIAIS: ALVOS_DE_ALTO_RISCO ]
+                        </h1>
+                    </header>
+                    <div className="p-4 space-y-4 pb-20">
+                        {teamS.map((hero, idx) => (
+                            <div key={idx} className="flex flex-col md:flex-row gap-4 p-4 border border-red-900/30 bg-red-950/5 hover:border-red-600/50 transition-all">
+                                <div className="relative shrink-0">
+                                    <img 
+                                        src={`../TeamSfotos/${hero.herofoto}`} 
+                                        className="w-24 h-24 object-cover border border-red-900 grayscale hover:grayscale-0 transition-all"
+                                        onError={(e) => e.target.src='https://i.imgur.com/8Km9h9E.png'}
+                                    />
+                                    <div className="absolute top-0 left-0 bg-red-600 text-black px-1 text-[10px] font-bold mono">
+                                        RANK_{hero.rank}
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-center">
+                                    <h2 className="text-xl font-bold mono text-white uppercase tracking-wider">{hero.heroname}</h2>
+                                    <p className="text-xs text-red-500 mono font-bold mt-2 uppercase italic leading-tight">
+                                        {getWarning(hero.rank)}
+                                    </p>
+                                    <div className="mt-3 h-[2px] w-full bg-red-900/20 overflow-hidden">
+                                        <div className="h-full bg-red-600" style={{width: `${110 - (hero.rank * 10)}%`}}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             );
         };
@@ -433,14 +490,12 @@
                 }
             });
 
-            // Lógica de renderização de mídia corrigida
             const renderMedia = () => {
                 if (!post.media || post.media === "") return null;
 
                 const mediaPath = `./arquivos/${post.media}`;
                 const type = post.type.toLowerCase();
 
-                // Verifica se o tipo é vídeo (mp4, webm, video)
                 if (type === 'video' || type === 'mp4') {
                     return (
                         <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a] bg-black">
@@ -449,7 +504,6 @@
                     );
                 }
 
-                // Verifica se o tipo é imagem (png, jpg, jpeg, gif, image)
                 if (['image', 'png', 'jpg', 'jpeg', 'gif'].includes(type)) {
                     return (
                         <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a]">
