@@ -336,9 +336,16 @@
 
         const ArquivosView = ({ teamS }) => {
             const getWarning = (rank) => {
-                if (rank >= 1 && rank <= 4) return "corre! se você viu ele, está fudido.";
-                if (rank >= 5 && rank <= 7) return "TALVEZ! ênfase no talvez! talvez você tenha uma chance...";
-                if (rank >= 8 && rank <= 10) return "Se tu for o Cold Ice, a Julgadora Noturna, o UnderCity ou alguém proximo do nível deles não precisa ter medo, mas não subestima.";
+                if (rank === 1) return "Você nem vai ter tempo de reação.";
+                if (rank ===2 ) return "Tu tá fudido.";
+                if (rank === 3) return "Não sei o que tu fez... Mas tu tá mais que fudido, se deus existir que ele tenha misericórdia da tua alma.";
+                if (rank === 4) return "Ele normalmente está sempre cansado e estressado com o trabalho, não provoca mais, só se rende... melhor que ser jogado numa dimensão sem comida nem água por dias...";
+                if (rank === 5) return "O Kleber pode parecer inofensivo, mas o poder desse merda faz ele ser indetectavel, se tu vacilar é algemado e nem nota, ou ele descarrega um teaser em tu sem tu se quer notar, na epoca de vilão tu só notava as facadas, ou tiros quando caia no chão.";
+                if (rank === 6) return "Se garante no soco contra uma baleia? está longe da água? TALVEZ, ênfase no talvez, você consiga fugir, já não garanto sem sequelas.";
+                if (rank === 7) return "Esse filha da puta consegue copiar poderes incluindo o teu... Mas se tu for inteligente e não der mole, talvez consiga ganhar, o problema é quando ele imita os poderes do Super Estrelado, ainda é uma versão mais fraca que o original, mas PUTA MERDA isso já é apelar demais.";
+                if (rank === 8) return "Esse é facil de lidar, tirando a tecnica de luta dele e os sentidos aprimorados, só não deixar ele tocar em tu, o problema é se ele encostar em tu, o problema é quando ele tá em equipe.";
+                if (rank === 9) return "Essa é facil de lidar também, ele consegue prever teus movimentos o que é bem vantajoso numa luta, mas tirando isso, ela é só uma humana em forma, o problema é quando ela tá em equipe.";
+                if (rank === 10) return "Esse poderia ser o mais perigoso de todos, se não fosse só um idoso com conhecimento que precisa de minutos para preparar uma magia, o problema é se ele estiver em equipe.";
                 return "CUIDADO EXTREMO.";
             };
 
