@@ -374,7 +374,6 @@
                                         <p className="text-sm text-gray-300 mono leading-relaxed border-l border-red-900 pl-4 italic">
                                             {selectedMission.objective}
                                         </p>
-                                        {/* Botão com triggerSecurity adicionado */}
                                         <button 
                                             onClick={triggerSecurity}
                                             className="w-full py-2 bg-red-900/20 border border-red-600 text-red-500 font-bold mono text-xs hover:bg-red-600 hover:text-white transition-all"
@@ -422,6 +421,7 @@
             const owner = getProfile(post.username) || { nome: "Usuário Desconhecido", imagem_perfil: "default.png", usuario: post.username };
             const hashtags = Array.isArray(post.hashtags) ? post.hashtags.filter(h => h && h !== "") : [];
             const replies = [];
+            
             Object.keys(post).forEach(key => {
                 if (key.startsWith('reposta')) {
                     const num = key.replace('reposta', '');
@@ -433,6 +433,34 @@
                 }
             });
 
+            // Lógica de renderização de mídia corrigida
+            const renderMedia = () => {
+                if (!post.media || post.media === "") return null;
+
+                const mediaPath = `./arquivos/${post.media}`;
+                const type = post.type.toLowerCase();
+
+                // Verifica se o tipo é vídeo (mp4, webm, video)
+                if (type === 'video' || type === 'mp4') {
+                    return (
+                        <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a] bg-black">
+                            <video src={mediaPath} controls className="w-full max-h-[500px]" />
+                        </div>
+                    );
+                }
+
+                // Verifica se o tipo é imagem (png, jpg, jpeg, gif, image)
+                if (['image', 'png', 'jpg', 'jpeg', 'gif'].includes(type)) {
+                    return (
+                        <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a]">
+                            <img src={mediaPath} className="w-full max-h-96 object-cover" onError={(e) => e.target.style.display='none'} />
+                        </div>
+                    );
+                }
+
+                return null;
+            };
+
             return (
                 <div className="flex flex-col">
                     <article className="post-card p-6 flex gap-4 bg-black/20">
@@ -443,18 +471,17 @@
                                 <span className="text-gray-600 text-[10px] mono">@{post.username.replace('@', '')}</span>
                                 <span className="text-gray-700 text-[10px] mono ml-auto">// {post.createdAt}</span>
                             </div>
-                            <p className="text-sm leading-relaxed mb-4 text-gray-400 mono">
+                            <div className="text-sm leading-relaxed mb-4 text-gray-400 mono">
                                 {post.content}
-                                <br/>
-                                {hashtags.map((tag, i) => (
-                                    <span key={i} onClick={onHashtagClick} className="text-green-500 cursor-pointer hover:underline mr-2">{tag}</span>
-                                ))}
-                            </p>
-                            {post.media && post.media !== "" && (
-                                <div className="mt-3 rounded-lg overflow-hidden border border-[#1a1a1a]">
-                                    {post.type === 'image' ? <img src={`./arquivos/${post.media}`} className="w-full max-h-96 object-cover" /> : post.type === 'video' ? <video src={`./arquivos/${post.media}`} controls className="w-full" /> : null}
+                                <div className="mt-2">
+                                    {hashtags.map((tag, i) => (
+                                        <span key={i} onClick={onHashtagClick} className="text-green-500 cursor-pointer hover:underline mr-2">{tag}</span>
+                                    ))}
                                 </div>
-                            )}
+                            </div>
+                            
+                            {renderMedia()}
+
                             <div className="flex gap-6 mt-4 text-gray-600 mono text-[11px]">
                                 <span>REPLIES: {post.replies || 0}</span>
                                 <span>RETWEETS: {post.retweets || 0}</span>
